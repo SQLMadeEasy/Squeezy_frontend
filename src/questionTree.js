@@ -4,6 +4,7 @@ import {isTable, isColumn, tables} from './dummydata'
 export class PromptTree {
   constructor() {
     const promptTree = this
+    
     this.table = null
     this.column = null 
     
@@ -13,29 +14,34 @@ export class PromptTree {
     respond: response => {
       if (isTable(response)) {
         //If table is chosen set next Prompt to column Prompt
-        this.tablePrompt.nextPrompt = this.columnPrompt;
+        this.nextPrompt = this.columnPrompt;
         //set this.table to reponse
         this.table = response
       } else {
         //else stay at curent Prompt
-        this.tablePrompt.nextPrompt = this.tablePrompt;
+        this.nextPrompt = this;
       }
     },
-    nextPrompt: ""
+    nextPrompt: "",
+   
    }
 
    this.curNode = this.tablePrompt
 
    this.columnPrompt = {
+   initialize () {
+    this.choices = Object.keys(tables[promptTree.table])
+   },
    prompt: `What about ${this.table} are you interested in?`,
-   choices: Object.keys(tables[promptTree.table]),
+   //this.table needs equal to
+   choices: [],
    respond: response => {
         // if (isTable(response)) {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
         if (isColumn(this.table, response)) {
-          this.columnPrompt.nextPrompt = this.resultPrompt
+          this.nextPrompt = promptTree.resultPrompt
 
           this.column = response
         }
