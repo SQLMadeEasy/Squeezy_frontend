@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import {sendMessage} from './chat'
+import './App.css'
 
 export class App extends Component {
   render() {
@@ -10,13 +11,27 @@ export class App extends Component {
       <div>
         <h1>Welcome to SQueezy!</h1>
         <ul>
-          {feed.map((entry, idx) => 
-            <li key={entry.idx}> 
-            {entry.text}
-            <ul>
-               {entry.choices.map(choice => <li>{choice}</li> )}
-            </ul>               
-           </li>
+          {feed.map((entry, idx) => {
+            return (
+              <Fragment>
+              <div key={idx} class="speech-bubble-right">
+                <div className='speech-bubble-text-body'>
+                  <p><strong>Demo speech bubble</strong></p>
+                  <p>{entry.text}</p>
+                  {entry.choices.length > 0 ?
+                    <ul>
+                      {entry.choices.map(choice => <li>{choice}</li>)}
+                    </ul>
+                    :
+                    null
+                  }
+                  <div class="speech-bubble-right-arrow"></div>
+                </div>
+              </div>
+              <br />  
+              </Fragment>
+            )
+            }           
           )}
         </ul> 
         <div>
