@@ -45,7 +45,7 @@ export class App extends Component {
         <div>
           
         </div>
-           <input className='userInput' type="text" onKeyDown={(e) => {
+           <input className='user-message-field' type="text" onKeyDown={(e) => {
              if (e.keyCode === 13) {
                sendMessage(e.target.value)
                e.target.value = ''

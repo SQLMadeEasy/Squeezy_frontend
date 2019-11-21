@@ -74,8 +74,11 @@ export class PromptTree {
    this.resultPrompt = {
      initialize () {
        this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
-     }
-    
+     },
+     respond: function () {
+
+     },
+    nextPrompt: this
    }
   }
 }

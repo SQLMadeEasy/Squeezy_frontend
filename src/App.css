@@ -51,4 +51,5 @@ h1 {
   position: fixed;
   bottom:20px;
   margin-bottom: 200px;
+  border: 2px solid black !important;
 }
