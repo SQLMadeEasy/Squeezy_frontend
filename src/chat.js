@@ -1,6 +1,11 @@
 import {ApiAiClient} from 'api-ai-javascript'
 import { createStore, applyMiddleware } from 'redux'
+import {createLogger} from 'redux-logger'
+import {tables} from './dummydata'
+import {PromptTree} from './questionTree'
+import { send } from 'q'
 
+const promptTree = new PromptTree()
 
 const accessToken = '1113c174971d4174bf4ed8778835ba8b'
 const client = new ApiAiClient({accessToken})
@@ -11,32 +16,56 @@ const ON_MESSAGE = "ON_MESSAGE"
 
 
 //ACTION CREATOR
-export const sendMessage = (text, sender="user") => {
+export const sendMessage = (text, choices = []) => {
   return {
     type: ON_MESSAGE,
-    payload: {text, sender}
+    payload: {
+      text, 
+      choices
+    },
   }
 }
 
 
 //GRABBING RESPONSE FROM TEXT REQUEST
 const messageMiddleware = () => next => action => {
-  if (action.type === ON_MESSAGE){ 
+  if (action.type === ON_MESSAGE) { 
     const { text } = action.payload
+    console.log('HELLO!')
 
-    client.textRequest(text)
-      .then( onSuccess )
+    // client.textRequest(text)
+    //   .then( onSuccess )
 
-      function onSuccess (response) {
-        const {result: {fulfillment }} = response
-        next(sendMessage(fulfillment.speech, 'bot'))
+    //   function onSuccess (response) {
+    //     const {result: {fulfillment }} = response
+        // next(sendMessage(fulfillment.speech, 'bot'))
+        //debugger;
+        promptTree.curNode.respond(text)
+        promptTree.curNode = 
+        promptTree.curNode.nextPrompt
+        
+        console.log(promptTree.curNode.prompt)
+        next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
       }
   }
-}
+
+
+
+
+const logger = createLogger({
+  predicate: (getState, action) => {
+      // Use the next line to disable specific actions from being logged.
+      // return ![ACTION_TYPE_ONE, ACTION_TYPE_TWO, ...].includes(action.type);
+    //  return ![].includes(action.type);
+      // Return false if you don't want to log anything.
+       return true;
+  }
+});
 
 const initState = [
   {
-    text: 'Hi, How can I help you today?'
+    text: promptTree.curNode.prompt,
+    choices: promptTree.curNode.choices
   }
 ]
 
@@ -50,4 +79,4 @@ const messageReducer = (state=initState, action) => {
 }
 
 
-export const Store = createStore(messageReducer, applyMiddleware(messageMiddleware))
+export const Store = createStore(messageReducer, applyMiddleware(messageMiddleware, logger))
