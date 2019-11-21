@@ -56,7 +56,7 @@ const logger = createLogger({
 
 const initState = [
   {
-    text: promptTree.curNode,
+    text: promptTree.curNode.prompt,
     choices: promptTree.curNode.choices
   }
 ]
