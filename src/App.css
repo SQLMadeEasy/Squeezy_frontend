@@ -23,6 +23,7 @@ h1 {
     max-width: 400px;
     padding: 15px;
     position: relative;
+    flex-direction: column;
 }
 
 .speech-bubble-text-body {
@@ -37,7 +38,16 @@ h1 {
     margin-bottom: 0;
 }
 
+.main {
+    display: flex
+}
+
+.Fragment {
+    display: flex;
+}
+
 .speech-bubble-right::after {
+    
     border-left: 20px solid transparent;
     border-top: 20px solid black;
     bottom: -25px;
@@ -50,5 +60,6 @@ h1 {
   width: 100px;
   position: fixed;
   bottom:20px;
-  margin-bottom: 150px;
+  margin-bottom: 200px;
+  border: 2px solid grey !important;
 }

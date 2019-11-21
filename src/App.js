@@ -18,10 +18,10 @@ export class App extends Component {
     return (
       <div>
         <h1>Welcome to Squeezy!</h1>
-        <ul>
+        <div className="main">
           {feed.map((entry, idx) => {
             return (
-              <Fragment>
+              <Fragment className = 'Fragment'>
               <div key={idx} class="speech-bubble-right">
                 <div className='speech-bubble-text-body'>
                   <p><strong>Demo speech bubble</strong></p>
@@ -41,11 +41,11 @@ export class App extends Component {
             )
             }           
           )}
-        </ul> 
+        </div> 
         <div>
           
         </div>
-           <input className='userInput' type="text" onKeyDown={(e) => {
+           <input className='user-message-field' type="text" onKeyDown={(e) => {
              if (e.keyCode === 13) {
                sendMessage(e.target.value)
                e.target.value = ''
