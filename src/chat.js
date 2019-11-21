@@ -31,7 +31,6 @@ export const sendMessage = (text, choices = []) => {
 const messageMiddleware = () => next => action => {
   if (action.type === ON_MESSAGE) { 
     const { text } = action.payload
-    console.log('HELLO!')
 
     // client.textRequest(text)
     //   .then( onSuccess )
@@ -43,8 +42,15 @@ const messageMiddleware = () => next => action => {
         promptTree.curNode.respond(text)
         promptTree.curNode = 
         promptTree.curNode.nextPrompt
-        
-        console.log(promptTree.curNode.prompt)
+
+        while (promptTree.curNode.redirect) {
+          next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
+
+          promptTree.curNode = 
+          promptTree.curNode.nextPrompt
+
+        }
+
         next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
       }
   }
@@ -58,7 +64,7 @@ const logger = createLogger({
       // return ![ACTION_TYPE_ONE, ACTION_TYPE_TWO, ...].includes(action.type);
     //  return ![].includes(action.type);
       // Return false if you don't want to log anything.
-       return true;
+       return false;
   }
 });
 

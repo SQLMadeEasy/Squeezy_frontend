@@ -22,12 +22,27 @@ export class PromptTree {
         
       } else {
         //else stay at curent Prompt
-        this.nextPrompt = this;
+        //this.nextPrompt = this;
+        this.nextPrompt = promptTree.invalidPrompt
+        //Redirects to invalid prompt and invalid prompt will redirect back to the original question
+        promptTree.invalidPrompt.initialize(this, response)
       }
     },
     nextPrompt: "",
-   
    }
+
+   this.invalidPrompt = {
+    redirect: true, 
+    prompt: ``,
+    choices: [],
+
+    initialize(prompt, previousResponse) {
+      this.nextPrompt = prompt
+      this.prompt = `${previousResponse} is not a valid response. Please try again.`
+    }
+ 
+   }
+
 
    this.curNode = this.tablePrompt
 
@@ -44,12 +59,13 @@ export class PromptTree {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
+        debugger;
 
-        if (isColumn(this.table, response)) {
-    
+        if (isColumn(promptTree.table, response)) {
+          console.log('JNDFJKSDNF')
           this.nextPrompt = promptTree.resultPrompt
 
-          this.column = response
+          promptTree.column = response
         }
    },
    nextPrompt: ""
