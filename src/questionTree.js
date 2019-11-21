@@ -11,12 +11,15 @@ export class PromptTree {
     this.tablePrompt = { 
     prompt: "What data are you interested in?",
     choices: Object.keys(tables),
-    respond: response => {
+    respond: function (response) {
+      //debugger;
       if (isTable(response)) {
         //If table is chosen set next Prompt to column Prompt
-        this.nextPrompt = this.columnPrompt;
+        this.nextPrompt = promptTree.columnPrompt;
         //set this.table to reponse
-        this.table = response
+        promptTree.table = response
+        promptTree.columnPrompt.initialize()
+        
       } else {
         //else stay at curent Prompt
         this.nextPrompt = this;
@@ -30,9 +33,10 @@ export class PromptTree {
 
    this.columnPrompt = {
    initialize () {
+     this.prompt = `What about ${promptTree.table} are you interested in?`
     this.choices = Object.keys(tables[promptTree.table])
    },
-   prompt: `What about ${this.table} are you interested in?`,
+   prompt: '',
    //this.table needs equal to
    choices: [],
    respond: response => {
@@ -40,7 +44,9 @@ export class PromptTree {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
+
         if (isColumn(this.table, response)) {
+    
           this.nextPrompt = promptTree.resultPrompt
 
           this.column = response

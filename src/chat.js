@@ -16,10 +16,13 @@ const ON_MESSAGE = "ON_MESSAGE"
 
 
 //ACTION CREATOR
-export const sendMessage = (text, sender="user") => {
+export const sendMessage = (text, choices = []) => {
   return {
     type: ON_MESSAGE,
-    payload: {text, sender, choices:[]},
+    payload: {
+      text, 
+      choices
+    },
   }
 }
 
@@ -28,6 +31,7 @@ export const sendMessage = (text, sender="user") => {
 const messageMiddleware = () => next => action => {
   if (action.type === ON_MESSAGE) { 
     const { text } = action.payload
+    console.log('HELLO!')
 
     // client.textRequest(text)
     //   .then( onSuccess )
@@ -35,9 +39,13 @@ const messageMiddleware = () => next => action => {
     //   function onSuccess (response) {
     //     const {result: {fulfillment }} = response
         // next(sendMessage(fulfillment.speech, 'bot'))
+        //debugger;
         promptTree.curNode.respond(text)
-        promptTree.curNode = promptTree.curNode.nextPrompt
-        next(sendMessage())
+        promptTree.curNode = 
+        promptTree.curNode.nextPrompt
+        
+        console.log(promptTree.curNode.prompt)
+        next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
       }
   }
 
