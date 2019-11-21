@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
 
+body {
+    color:black
+}
+
 h1 {
     font-family: 'Playfair Display', serif !important;
 }
@@ -40,4 +44,9 @@ h1 {
     content: "";
     position: absolute;
     right: 20px;
+}
+
+.user-message-field {
+  position: fixed;
+  bottom:20px;
 }

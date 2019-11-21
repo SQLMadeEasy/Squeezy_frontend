@@ -9,7 +9,7 @@ export class App extends Component {
 
     return (
       <div>
-        <h1>Welcome to SQueezy!</h1>
+        <h1>Welcome to Squeezy!</h1>
         <ul>
           {feed.map((entry, idx) => {
             return (
@@ -37,7 +37,7 @@ export class App extends Component {
         <div>
           
         </div>
-        <input type="text" onKeyDown={ (e) => e.keyCode === 13 ? sendMessage(e.target.value) : null}/>
+        <input className='user-message-field' type="text" onKeyDown={ (e) => e.keyCode === 13 ? sendMessage(e.target.value) : null}/>
 
       </div>
     )
