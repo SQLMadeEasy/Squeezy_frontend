@@ -11,22 +11,6 @@ export class App extends Component {
       }
   }
 
-  handleChange (event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  handleOnKeyDown (event) {
-    const { sendMessage } = this.props
-    if (event.keyCode === 13) {
-      sendMessage(event.target.value)
-    }
-
-    this.setState({
-      userInput: ''
-    })
-  }
 
   render() {
     const {feed, sendMessage} = this.props
@@ -61,11 +45,13 @@ export class App extends Component {
         <div>
           
         </div>
-        <form onKeyDown={this.handleOnKeyDown}>
-           <input className='userInput' type="text" onChange={this.handleChange}/>
-        </form>
-    
-
+           <input className='userInput' type="text" onKeyDown={(e) => {
+             if (e.keyCode === 13) {
+               sendMessage(e.target.value)
+               e.target.value = ''
+             }
+           }}
+           />
       </div>
     )
   }
