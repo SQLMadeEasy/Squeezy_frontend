@@ -54,24 +54,28 @@ export class PromptTree {
    prompt: '',
    //this.table needs equal to
    choices: [],
-   respond: response => {
+   respond: function (response) {
         // if (isTable(response)) {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
-        debugger;
+      
 
         if (isColumn(promptTree.table, response)) {
           console.log('JNDFJKSDNF')
           this.nextPrompt = promptTree.resultPrompt
-
           promptTree.column = response
+          promptTree.resultPrompt.initialize()
+
         }
    },
    nextPrompt: ""
    }
    this.resultPrompt = {
-    prompt: `SELECT ${this.column} FROM ${this.table};`
+     initialize () {
+       this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
+     }
+    
    }
   }
 }
