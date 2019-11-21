@@ -22,12 +22,27 @@ export class PromptTree {
         
       } else {
         //else stay at curent Prompt
-        this.nextPrompt = this;
+        //this.nextPrompt = this;
+        this.nextPrompt = promptTree.invalidPrompt
+        //Redirects to invalid prompt and invalid prompt will redirect back to the original question
+        promptTree.invalidPrompt.initialize(this, response)
       }
     },
     nextPrompt: "",
-   
    }
+
+   this.invalidPrompt = {
+    redirect: true, 
+    prompt: ``,
+    choices: [],
+
+    initialize(prompt, previousResponse) {
+      this.nextPrompt = prompt
+      this.prompt = `${previousResponse} is not a valid response. Please try again.`
+    }
+ 
+   }
+
 
    this.curNode = this.tablePrompt
 
@@ -39,23 +54,28 @@ export class PromptTree {
    prompt: '',
    //this.table needs equal to
    choices: [],
-   respond: response => {
+   respond: function (response) {
         // if (isTable(response)) {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
+      
 
-        if (isColumn(this.table, response)) {
-    
+        if (isColumn(promptTree.table, response)) {
+          console.log('JNDFJKSDNF')
           this.nextPrompt = promptTree.resultPrompt
+          promptTree.column = response
+          promptTree.resultPrompt.initialize()
 
-          this.column = response
         }
    },
    nextPrompt: ""
    }
    this.resultPrompt = {
-    prompt: `SELECT ${this.column} FROM ${this.table};`
+     initialize () {
+       this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
+     }
+    
    }
   }
 }

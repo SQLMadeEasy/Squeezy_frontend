@@ -4,6 +4,22 @@ import {sendMessage} from './chat'
 import './App.css'
 
 export class App extends Component {
+  constructor () {
+    super () 
+      this.state = {
+        userInput: ''
+      }
+  }
+
+  handleSubmit (e) {
+    const { sendMessage } = this.props
+    sendMessage(e.target.value)
+
+    this.setState({
+      userInput: ''
+    })
+  }
+
   render() {
     const {feed, sendMessage} = this.props
 
@@ -37,7 +53,10 @@ export class App extends Component {
         <div>
           
         </div>
+        <form>
         <input className='user-message-field' type="text" onKeyDown={ (e) => e.keyCode === 13 ? sendMessage(e.target.value) : null}/>
+        </form>
+    
 
       </div>
     )

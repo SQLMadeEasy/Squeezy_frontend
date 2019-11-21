@@ -18,7 +18,7 @@ export function isTable (str) {
 }
 
 export function isColumn (table, column) {
-  if (tables[table][column]) {
+  if (tables[table][column] !== undefined) {
     return true
   }
   return false
