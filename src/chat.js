@@ -16,10 +16,13 @@ const ON_MESSAGE = "ON_MESSAGE"
 
 
 //ACTION CREATOR
-export const sendMessage = (text, sender="user") => {
+export const sendMessage = (text, choices = []) => {
   return {
     type: ON_MESSAGE,
-    payload: {text, sender, choices:[]},
+    payload: {
+      text, 
+      choices
+    },
   }
 }
 
@@ -35,9 +38,20 @@ const messageMiddleware = () => next => action => {
     //   function onSuccess (response) {
     //     const {result: {fulfillment }} = response
         // next(sendMessage(fulfillment.speech, 'bot'))
+        //debugger;
         promptTree.curNode.respond(text)
-        promptTree.curNode = promptTree.curNode.nextPrompt
-        next(sendMessage())
+        promptTree.curNode = 
+        promptTree.curNode.nextPrompt
+
+        while (promptTree.curNode.redirect) {
+          next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
+
+          promptTree.curNode = 
+          promptTree.curNode.nextPrompt
+
+        }
+
+        next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
       }
   }
 
@@ -50,7 +64,7 @@ const logger = createLogger({
       // return ![ACTION_TYPE_ONE, ACTION_TYPE_TWO, ...].includes(action.type);
     //  return ![].includes(action.type);
       // Return false if you don't want to log anything.
-       return true;
+       return false;
   }
 });
 

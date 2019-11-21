@@ -11,28 +11,47 @@ export class PromptTree {
     this.tablePrompt = { 
     prompt: "What data are you interested in?",
     choices: Object.keys(tables),
-    respond: response => {
+    respond: function (response) {
+      //debugger;
       if (isTable(response)) {
         //If table is chosen set next Prompt to column Prompt
-        this.nextPrompt = this.columnPrompt;
+        this.nextPrompt = promptTree.columnPrompt;
         //set this.table to reponse
-        this.table = response
+        promptTree.table = response
+        promptTree.columnPrompt.initialize()
+        
       } else {
         //else stay at curent Prompt
-        this.nextPrompt = this;
+        //this.nextPrompt = this;
+        this.nextPrompt = promptTree.invalidPrompt
+        //Redirects to invalid prompt and invalid prompt will redirect back to the original question
+        promptTree.invalidPrompt.initialize(this, response)
       }
     },
     nextPrompt: "",
-   
    }
+
+   this.invalidPrompt = {
+    redirect: true, 
+    prompt: ``,
+    choices: [],
+
+    initialize(prompt, previousResponse) {
+      this.nextPrompt = prompt
+      this.prompt = `${previousResponse} is not a valid response. Please try again.`
+    }
+ 
+   }
+
 
    this.curNode = this.tablePrompt
 
    this.columnPrompt = {
    initialize () {
+     this.prompt = `What about ${promptTree.table} are you interested in?`
     this.choices = Object.keys(tables[promptTree.table])
    },
-   prompt: `What about ${this.table} are you interested in?`,
+   prompt: '',
    //this.table needs equal to
    choices: [],
    respond: response => {
@@ -40,10 +59,13 @@ export class PromptTree {
         //   this.nextPrompt = "columnPrompt";
         // } 
         // Helper Function to see if a column     exists 
-        if (isColumn(this.table, response)) {
+        debugger;
+
+        if (isColumn(promptTree.table, response)) {
+          console.log('JNDFJKSDNF')
           this.nextPrompt = promptTree.resultPrompt
 
-          this.column = response
+          promptTree.column = response
         }
    },
    nextPrompt: ""
