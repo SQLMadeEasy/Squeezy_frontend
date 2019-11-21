@@ -62,24 +62,49 @@ export class PromptTree {
       
 
         if (isColumn(promptTree.table, response)) {
-          console.log('JNDFJKSDNF')
-          this.nextPrompt = promptTree.resultPrompt
+          goToNextAndInitialize(this, promptTree.allOrSomePrompt)
           promptTree.column = response
-          promptTree.resultPrompt.initialize()
 
         }
    },
    nextPrompt: ""
    }
+
+   this.allOrSomePrompt = {
+     initialize() {
+       this.prompt = `Do you want all the ${promptTree.table} or just some of the ${promptTree.table}?`
+       this.choices = ['all', 'some']
+     },
+     respond: function (response) {
+      if (this.choices.includes(response)) {
+        switch(response) {
+          case 'all': 
+            goToNextAndInitialize(this, promptTree.resultPrompt)
+            break
+          case 'some': 
+            goToNextAndInitialize(this, promptTree.resultPrompt)
+            break
+          default:
+            break;
+        }
+      }
+     }
+   }
    this.resultPrompt = {
      initialize () {
        this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
+       this.nextPrompt = this
      },
      respond: function () {
 
      },
-    nextPrompt: this
+    nextPrompt: {}
    }
   }
 }
 
+
+function goToNextAndInitialize(currPrompt, nextPrompt) {
+  nextPrompt.initialize()
+  currPrompt.nextPrompt = nextPrompt
+}
