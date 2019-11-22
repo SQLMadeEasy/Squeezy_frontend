@@ -1,8 +1,12 @@
+export const STRING = 'string'
+export const INTEGER = 'integer'
+
+
 export const tables = {
   
   users: {
-    name: "",
-    age: ""
+    name: STRING,
+    age: INTEGER
   },
   products: {},
   orders: {}

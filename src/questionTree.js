@@ -1,4 +1,4 @@
-import {isTable, isColumn, tables} from './dummydata'
+import {isTable, isColumn, tables, STRING, INTEGER} from './dummydata'
 
 
 export class PromptTree {
@@ -76,20 +76,41 @@ export class PromptTree {
        this.choices = ['all', 'some']
      },
      respond: function (response) {
-      if (this.choices.includes(response)) {
-        switch(response) {
-          case 'all': 
-            goToNextAndInitialize(this, promptTree.resultPrompt)
-            break
-          case 'some': 
-            goToNextAndInitialize(this, promptTree.resultPrompt)
-            break
-          default:
-            break;
-        }
-      }
+       if (this.choices.includes(response)) {
+         switch (response) {
+           case 'all':
+             goToNextAndInitialize(this, promptTree.resultPrompt)
+             break
+           case 'some':
+             goToNextAndInitialize(this, promptTree.constraints)
+             break
+           default:
+             break;
+         }
+       }
      }
    }
+
+    this.constraints = {
+      initialize() {
+        this.prompt = `What do you want to constrain your results by?`
+        this.choices = Object.keys(tables[promptTree.table])
+      },
+      respond: function (response) {
+        if (this.choices.includes(response)) {
+          switch (tables[promptTree.table][response]) {
+            case INTEGER:
+              goToNextAndInitialize(this, promptTree.resultPrompt)
+              break
+            case STRING:
+              goToNextAndInitialize(this, promptTree.resultPrompt)
+              break
+            default:
+              break;
+          }
+        }
+      }
+    }
    this.resultPrompt = {
      initialize () {
        this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
