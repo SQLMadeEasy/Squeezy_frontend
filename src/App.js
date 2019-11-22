@@ -2,18 +2,16 @@ import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import {sendMessage} from './chat'
 import './App.css'
+import { Row } from 'reactstrap'
 
 export class App extends Component {
-  constructor () {
-    super () 
-      this.state = {
-        userInput: ''
-      }
-  }
-
 
   render() {
     const {feed, sendMessage} = this.props
+
+    function bottom() {
+      document.getElementsByClassName( 'user-message-field' )[0].scrollIntoView();
+    };
 
     return (
       <div>
@@ -21,10 +19,10 @@ export class App extends Component {
         <div className="main">
           {feed.map((entry, idx) => {
             return (
-              <Fragment className = 'Fragment'>
-              <div key={idx} class="speech-bubble-right">
+              <div>
+              <Row key={idx} className="speech-bubble-right">
                 <div className='speech-bubble-text-body'>
-                  <p><strong>Demo speech bubble</strong></p>
+                  <p><strong>Demo Speech Bubble</strong></p>
                   <p>{entry.text}</p>
                   {entry.choices.length > 0 ?
                     <ul>
@@ -35,9 +33,9 @@ export class App extends Component {
                   }
                   <div class="speech-bubble-right-arrow"></div>
                 </div>
-              </div>
+              </Row>
               <br />  
-              </Fragment>
+              </div>
             )
             }           
           )}
@@ -45,10 +43,11 @@ export class App extends Component {
         <div>
           
         </div>
-           <input className='user-message-field' type="text" onKeyDown={(e) => {
+           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={(e) => {
              if (e.keyCode === 13) {
                sendMessage(e.target.value)
                e.target.value = ''
+               document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
              }
            }}
            />
@@ -56,6 +55,9 @@ export class App extends Component {
     )
   }
 }
+
+
+
 
 const mapStateToProps = state => ({
   feed: state
