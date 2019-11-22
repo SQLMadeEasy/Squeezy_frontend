@@ -39,9 +39,11 @@ const messageMiddleware = () => next => action => {
     //     const {result: {fulfillment }} = response
         // next(sendMessage(fulfillment.speech, 'bot'))
         //debugger;
+    console.log("curr node: ", promptTree.curNode)
+    console.log("next prompt", promptTree.curNode.nextPrompt)
+
         promptTree.curNode.respond(text)
-        promptTree.curNode = 
-        promptTree.curNode.nextPrompt
+        promptTree.curNode = promptTree.curNode.nextPrompt
 
         while (promptTree.curNode.redirect) {
           next(sendMessage(promptTree.curNode.prompt, promptTree.curNode.choices))
