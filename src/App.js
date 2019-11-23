@@ -45,9 +45,9 @@ export class App extends Component {
         </div>
            <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={(e) => {
              if (e.keyCode === 13) {
+              document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
                sendMessage(e.target.value)
                e.target.value = ''
-               document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
              }
            }}
            />

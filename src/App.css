@@ -46,9 +46,9 @@ h1 {
 }
 
 .user-message-field {
-  width: 50px;
-
-  bottom: 20px;
+  width: 100px;
+  position: fixed;
+  bottom:20px;
   margin-bottom: 200px;
-  border: 2px solid grey !important;
+  border: 2px solid black !important;
 }
