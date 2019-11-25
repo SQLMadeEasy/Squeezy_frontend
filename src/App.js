@@ -19,22 +19,21 @@ export class App extends Component {
     this.state = {
       userInput: ''
     }
-    this.changeUserInput = this.changeUserInput.bind(this)
+    this.handleInputSubmit = this.handleInputSubmit.bind(this)
   }
 
-  changeUserInput(e) {
-    this.setState({
-      userInput: e.target.value
-    })
+  handleInputSubmit(e) {
+    const {sendMessage} = this.props
+     
+      if (e.keyCode === 13) {
+        sendMessage(e.target.value) 
+        e.target.value = ''
+      }
+      
   }
 
   render() {
-    const {feed, sendMessage} = this.props
-    const userInput = this.state
-
-    function bottom() {
-      document.getElementsByClassName( 'user-message-field' )[0].scrollIntoView();
-    };
+    const {feed} = this.props
 
     return (
       <div>
@@ -46,28 +45,27 @@ export class App extends Component {
               <NavbarBrand href="/" className="Home">Home
               </NavbarBrand>
           </Navbar>
-          <p className="tagline">SQL Made Easy For Your Convenience</p>
-          
+          <p className="tagline">SQL Made Easy For Your Convenience</p>      
         </div>
       
         <div className="main">
           {feed.map((entry, idx) => {
             return (
               <div>
-              <Row key={idx} className="speech-bubble-right">
-                <div className='speech-bubble-text-body'>
-                  <p><strong>Demo Speech Bubble</strong></p>
-                  <p>{entry.text}</p>
-                  {entry.choices.length > 0 ?
-                    <ol>
-                      {entry.choices.map(choice => <li>{choice}</li>)}
-                    </ol>
-                    :
-                    null
-                  }
-                  <div class="speech-bubble-right-arrow"></div>
-                </div>
-              </Row>
+                <Row key={idx} className="speech-bubble-right">
+                  <div className='speech-bubble-text-body'>
+                    <p><strong>SqueezyBot</strong></p>
+                    <p>{entry.text}</p>
+                    {entry.choices.length > 0 ?
+                      <ol>
+                        {entry.choices.map(choice => <li>{choice}</li>)}
+                      </ol>
+                      :
+                      null
+                    }
+                    <div class="speech-bubble-right-arrow"></div>
+                  </div>
+                </Row>
               <br />  
               </div>
             )
@@ -77,16 +75,8 @@ export class App extends Component {
         <div>
           
         </div>
-           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={(e) => {
-             if (e.keyCode === 13) {
-              document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
-               this.changeUserInput()
-               sendMessage(e.target.value) 
-               e.target.value = ''
-             }
-           }}
-           />
-      </div>
+           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
+        </div>
     )
   }
 }

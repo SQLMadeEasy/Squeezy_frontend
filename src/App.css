@@ -34,6 +34,15 @@ body {
     position: relative;
 }
 
+.responseBubble {
+    display:block;
+    font-family: 'Playfair Display', serif !important;
+    border: .2em solid black;
+    background: white;
+}
+
+
+
 .speech-bubble-text-body {
     padding-right: 2em;
     padding-left: 2em;
