@@ -1,9 +1,10 @@
 import { ApiAiClient } from 'api-ai-javascript'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
-import { tables } from './dummydata'
 import { PromptTree } from './questionTree'
+import { tables } from './dummydata'
 import { send } from 'q'
+
 
 const promptTree = new PromptTree()
 

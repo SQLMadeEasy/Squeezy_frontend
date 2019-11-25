@@ -12,10 +12,25 @@ import {
   NavbarBrand,
   } from 'reactstrap'
 
+
 export class App extends Component {
+  constructor () {
+    super()
+    this.state = {
+      userInput: ''
+    }
+    this.changeUserInput = this.changeUserInput.bind(this)
+  }
+
+  changeUserInput(e) {
+    this.setState({
+      userInput: e.target.value
+    })
+  }
 
   render() {
     const {feed, sendMessage} = this.props
+    const userInput = this.state
 
     function bottom() {
       document.getElementsByClassName( 'user-message-field' )[0].scrollIntoView();
@@ -65,7 +80,8 @@ export class App extends Component {
            <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={(e) => {
              if (e.keyCode === 13) {
               document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
-               sendMessage(e.target.value)
+               this.changeUserInput()
+               sendMessage(e.target.value) 
                e.target.value = ''
              }
            }}
@@ -77,9 +93,9 @@ export class App extends Component {
 
 
 
-
 const mapStateToProps = state => ({
   feed: state
 })
+
 
 export default connect(mapStateToProps, {sendMessage})(App)
