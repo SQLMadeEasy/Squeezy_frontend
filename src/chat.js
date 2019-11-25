@@ -64,8 +64,6 @@ const messageMiddleware = () => next => action => {
 
 const logger = createLogger({
   predicate: (getState, action) => {
-    // Use the next line to disable specific actions from being logged.
-    // return ![ACTION_TYPE_ONE, ACTION_TYPE_TWO, ...].includes(action.type);
     //  return ![].includes(action.type);
     // Return false if you don't want to log anything.
     return false;
