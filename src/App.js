@@ -2,7 +2,15 @@ import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import {sendMessage} from './chat'
 import './App.css'
-import { Row } from 'reactstrap'
+import { 
+  Row, 
+  Jumbotron, 
+  Toast,
+  ToastBody,
+  ToastHeader,
+  Navbar,
+  NavbarBrand,
+  } from 'reactstrap'
 
 export class App extends Component {
 
@@ -15,7 +23,18 @@ export class App extends Component {
 
     return (
       <div>
-        <h1>Welcome to Squeezy!</h1>
+        <div>
+          <Jumbotron className="header">
+            <h1>Welcome to Squeezy!</h1>         
+          </Jumbotron>
+          <Navbar color="dark">
+              <NavbarBrand href="/" className="Home">Home
+              </NavbarBrand>
+          </Navbar>
+          <p className="tagline">SQL Made Easy For Your Convenience</p>
+          
+        </div>
+      
         <div className="main">
           {feed.map((entry, idx) => {
             return (
@@ -25,9 +44,9 @@ export class App extends Component {
                   <p><strong>Demo Speech Bubble</strong></p>
                   <p>{entry.text}</p>
                   {entry.choices.length > 0 ?
-                    <ul>
+                    <ol>
                       {entry.choices.map(choice => <li>{choice}</li>)}
-                    </ul>
+                    </ol>
                     :
                     null
                   }
