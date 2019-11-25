@@ -1,9 +1,8 @@
 import { ApiAiClient } from 'api-ai-javascript'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
-import { tables } from './dummydata'
 import { PromptTree } from './questionTree'
-import { send } from 'q'
+
 
 const promptTree = new PromptTree()
 
@@ -16,12 +15,13 @@ const ON_MESSAGE = "ON_MESSAGE"
 
 
 //ACTION CREATOR
-export const sendMessage = (text, choices = []) => {
+export const sendMessage = (text, choices = [], speaker) => {
   return {
     type: ON_MESSAGE,
     payload: {
       text,
-      choices
+      choices,
+      speaker
     },
   }
 }
@@ -31,7 +31,9 @@ export const sendMessage = (text, choices = []) => {
 const messageMiddleware = () => next => action => {
   if (action.type === ON_MESSAGE) {
     let { text } = action.payload
+    text = text.toLowerCase();
 
+    next(sendMessage(text, [], 'user'))
     // client.textRequest(text)
     //   .then( onSuccess )
 
@@ -39,14 +41,14 @@ const messageMiddleware = () => next => action => {
     //     const {result: {fulfillment }} = response
     // next(sendMessage(fulfillment.speech, 'bot'))
     //debugger;
-    text = text.toLowerCase();
 
-    console.log("curr node: ", promptTree.curNode)
+    console.log("current node: ", promptTree.curNode)
     console.log("next prompt", promptTree.curNode.nextPrompt)
-
+    
     promptTree.curNode.respond(text)
     promptTree.curNode = promptTree.curNode.nextPrompt
-
+    
+   
     while (promptTree.curNode.redirect) {
       next(sendMessage(promptTree.curNode.getPrompt(), promptTree.curNode.getChoices()))
 
@@ -66,14 +68,15 @@ const logger = createLogger({
   predicate: (getState, action) => {
     //  return ![].includes(action.type);
     // Return false if you don't want to log anything.
-    return false;
+    return true;
   }
 });
 
 const initState = [
   {
     text: promptTree.curNode.getPrompt(),
-    choices: promptTree.curNode.getChoices()
+    choices: promptTree.curNode.getChoices(),
+    speaker: 'chatBot'
   }
 ]
 
