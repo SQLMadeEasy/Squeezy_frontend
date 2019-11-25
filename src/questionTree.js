@@ -6,6 +6,7 @@ const STRING = "STRING";
 
 export class PromptTree {
   constructor() {
+
     const promptTree = this;
 
     this.table = null;
@@ -41,6 +42,7 @@ export class PromptTree {
       getChoices() {
         return Object.keys(tables[promptTree.table]);
       },
+
 
       respond: function (response) {
         if (isColumn(promptTree.table, response)) {
@@ -99,6 +101,7 @@ export class PromptTree {
         }
       }
     }
+
 
     this.constrainByIntRange = {
       getPrompt: function () {

@@ -4,9 +4,20 @@ body {
     color:black
 }
 
-h1 {
-    font-family: 'Playfair Display', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
+/* h1 {
+    font-family: 'Playfair Display', serif !important;
+} */
+
+.tagline {
+    margin-left: 45px;
+    font-family: 'Playfair Display', serif !important;
 }
+
+.Home {
+    color: white;
+    margin-left: 40px;
+}
+
 
 .speech-bubble-right {
     display:block;
@@ -26,6 +37,7 @@ h1 {
 .speech-bubble-text-body {
     padding-right: 2em;
     padding-left: 2em;
+    font-family: 'Playfair Display', serif !important;
 }
 
 .speech-bubble-right p {
@@ -46,9 +58,10 @@ h1 {
 }
 
 .user-message-field {
-  width: 50px;
-
-  bottom: 20px;
+  width: 100px;
+  position: fixed;
+  bottom:20px;
+  margin-top: 200px;
   margin-bottom: 200px;
   border: 2px solid grey !important;
 }
