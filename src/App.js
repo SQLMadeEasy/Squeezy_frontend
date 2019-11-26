@@ -49,16 +49,13 @@ export class App extends Component {
 
     return (
       <div>
-        <div>
-          <Jumbotron className="header">
+        <header className="chat-header">
             <h1>Welcome to Squeezy!</h1>
-          </Jumbotron>
-          <Navbar color="dark">
+          {/* <Navbar color="dark">
             <NavbarBrand href="/" className="Home">Home
               </NavbarBrand>
-          </Navbar>
-          <p className="tagline">SQL Made Easy For Your Convenience</p>
-        </div>
+          </Navbar> */}
+        </header>
 
 
         <div>
@@ -95,7 +92,7 @@ export class App extends Component {
             </div>
           </FreeScrollBar>
         </div>
-        <InputGroup>
+        <InputGroup className = 'user-message-field-container'>
           <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
         </InputGroup>
       </div>
