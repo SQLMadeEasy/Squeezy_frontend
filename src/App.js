@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {sendMessage} from './chat'
 import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { 
   Row, 
   Jumbotron, 
@@ -50,7 +51,7 @@ export class App extends Component {
         </div>
 
       <div>
-      <FreeScrollBar style={{width: '100%', height: '380px'}}>  
+      <FreeScrollBar style={{width: '100%', height: '280px'}}>  
         <div className="main">
           {feed.map((entry, idx) => {
             return (
