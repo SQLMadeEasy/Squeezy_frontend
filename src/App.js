@@ -80,7 +80,7 @@ export class App extends Component {
 
       </div>
            <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
-        </div>
+      </div>
     )
   }
 }
