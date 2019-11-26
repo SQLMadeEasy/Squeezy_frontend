@@ -1,4 +1,3 @@
-
 const INTEGER = "INTEGER";
 const STRING = "STRING";
 
