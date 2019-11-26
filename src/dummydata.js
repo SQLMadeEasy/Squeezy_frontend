@@ -1,27 +1,44 @@
-export const STRING = 'string'
-export const INTEGER = 'integer'
 
+const INTEGER = "INTEGER";
+const STRING = "STRING";
 
 export const tables = {
-  
+
   users: {
     name: STRING,
-    age: INTEGER
+    email: STRING,
+    age: INTEGER,
+    height: INTEGER,
+    weight: INTEGER,
+    money: INTEGER,
   },
-  products: {},
-  orders: {}
 
+  products: {
+    title: STRING,
+    description: STRING,
+    inventory: INTEGER,
+    price: INTEGER,
+    amountSold: INTEGER,
+  },
+
+  orders: {
+    items: STRING,
+    status: STRING,
+    total: INTEGER,
+  }
 }
 
 
-export function isTable (str) {
-  if(tables[str]){
-    return true 
-  } 
+
+
+export function isTable(str) {
+  if (tables[str]) {
+    return true
+  }
   return false
 }
 
-export function isColumn (table, column) {
+export function isColumn(table, column) {
   if (tables[table][column] !== undefined) {
     return true
   }

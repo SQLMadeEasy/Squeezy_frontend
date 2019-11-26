@@ -1,131 +1,245 @@
-import {isTable, isColumn, tables, STRING, INTEGER} from './dummydata'
+import { isTable, isColumn, tables } from './dummydata'
+
+const INTEGER = "INTEGER";
+const STRING = "STRING";
 
 
 export class PromptTree {
   constructor() {
-    const promptTree = this
-    
-    this.table = null
-    this.column = null 
-    
-    this.tablePrompt = { 
-    prompt: "What data are you interested in?",
-    choices: Object.keys(tables),
-    respond: function (response) {
-      //debugger;
-      if (isTable(response)) {
-        //If table is chosen set next Prompt to column Prompt
-        this.nextPrompt = promptTree.columnPrompt;
-        //set this.table to reponse
-        promptTree.table = response
-        promptTree.columnPrompt.initialize()
-        
-      } else {
-        //else stay at curent Prompt
-        //this.nextPrompt = this;
-        this.nextPrompt = promptTree.invalidPrompt
-        //Redirects to invalid prompt and invalid prompt will redirect back to the original question
-        promptTree.invalidPrompt.initialize(this, response)
-      }
-    },
-    nextPrompt: "",
-   }
 
-   this.invalidPrompt = {
-    redirect: true, 
-    prompt: ``,
-    choices: [],
+    const promptTree = this;
 
-    initialize(prompt, previousResponse) {
-      this.nextPrompt = prompt
-      this.prompt = `${previousResponse} is not a valid response. Please try again.`
-    }
- 
-   }
+    this.table = null;
+    this.column = null;
 
-
-   this.curNode = this.tablePrompt
-
-   this.columnPrompt = {
-   initialize () {
-     this.prompt = `What about ${promptTree.table} are you interested in?`
-    this.choices = Object.keys(tables[promptTree.table])
-   },
-   prompt: '',
-   //this.table needs equal to
-   choices: [],
-   respond: function (response) {
-        // if (isTable(response)) {
-        //   this.nextPrompt = "columnPrompt";
-        // } 
-        // Helper Function to see if a column     exists 
-      
-
-        if (isColumn(promptTree.table, response)) {
-          goToNextAndInitialize(this, promptTree.allOrSomePrompt)
-          promptTree.column = response
-
-        }
-   },
-   nextPrompt: ""
-   }
-
-   this.allOrSomePrompt = {
-     initialize() {
-       this.prompt = `Do you want all the ${promptTree.table} or just some of the ${promptTree.table}?`
-       this.choices = ['all', 'some']
-     },
-     respond: function (response) {
-       if (this.choices.includes(response)) {
-         switch (response) {
-           case 'all':
-             goToNextAndInitialize(this, promptTree.resultPrompt)
-             break
-           case 'some':
-             goToNextAndInitialize(this, promptTree.constraints)
-             break
-           default:
-             break;
-         }
-       }
-     }
-   }
-
-    this.constraints = {
-      initialize() {
-        this.prompt = `What do you want to constrain your results by?`
-        this.choices = Object.keys(tables[promptTree.table])
+    this.tablePrompt = {
+      getPrompt: function () {
+        return "What data are you interested in?";
       },
+
+      getChoices: function () {
+        return Object.keys(tables);
+      },
+
+      respond: function (response) {
+        if (isTable(response)) {
+          setNextPrompt(this, promptTree.columnPrompt);
+          promptTree.table = response;
+        } else {
+          promptTree.runIsInvalidReponse(this, response);
+        }
+      },
+    }
+
+    this.startNode = this.tablePrompt;
+    this.curNode = this.tablePrompt;
+
+    this.columnPrompt = {
+      getPrompt() {
+        return `What about ${promptTree.table} are you interested in?`;
+      },
+
+      getChoices() {
+        return Object.keys(tables[promptTree.table]);
+      },
+
+
+      respond: function (response) {
+        if (isColumn(promptTree.table, response)) {
+          setNextPrompt(this, promptTree.allOrSomePrompt)
+          promptTree.column = response
+        } else {
+          promptTree.runIsInvalidReponse(this, response);
+        }
+      }
+    }
+
+    this.allOrSomePrompt = {
+      getPrompt: function () {
+        return `Do you want all the ${promptTree.table} or just some of the ${promptTree.table}?`;
+      },
+
+      getChoices: function () {
+        return this.choices = ['all', 'some'];
+      },
+
       respond: function (response) {
         if (this.choices.includes(response)) {
-          switch (tables[promptTree.table][response]) {
-            case INTEGER:
-              goToNextAndInitialize(this, promptTree.resultPrompt)
+          switch (response) {
+            case 'all':
+              setNextPrompt(this, promptTree.resultPrompt)
               break
-            case STRING:
-              goToNextAndInitialize(this, promptTree.resultPrompt)
+            case 'some':
+              setNextPrompt(this, promptTree.constraintsPromt)
               break
             default:
               break;
           }
+        } else {
+          promptTree.runIsInvalidReponse(this, response);
         }
       }
     }
-   this.resultPrompt = {
-     initialize () {
-       this.prompt = `SELECT ${promptTree.column} FROM ${promptTree.table};`
-       this.nextPrompt = this
-     },
-     respond: function () {
 
-     },
-    nextPrompt: {}
-   }
+    this.constraintsPromt = {
+      getPrompt: function () {
+        return `Which of of the following, do you wish to constrain by?`;
+      },
+
+      getChoices: function () {
+        return Object.keys(tables[promptTree.table]);
+      },
+
+      respond(response) {
+        promptTree.constraintColumns = response.split(", ");
+        promptTree.constraintIndex = 0;
+        promptTree.constraintRanges = [];
+        if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
+          setNextPrompt(this, promptTree.constrainByIntRange);
+        } else {
+          setNextPrompt(this, promptTree.constrainByStrRange);
+        }
+      }
+    }
+
+
+    this.constrainByIntRange = {
+      getPrompt: function () {
+        return `What range do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
+      },
+
+      getChoices: function () {
+        return [];
+      },
+
+      respond(reponse) {
+        reponse = reponse.split(" ").join(",");
+        const numbers = [""];
+        let numberIndex = 0;
+        let lastWasANumber = false;
+        for (let i = 0; i < reponse.length; i++) {
+          if (i === 0) {
+            if (!isNaN(reponse[0])) {
+              numbers[0] += reponse[0];
+              lastWasANumber = true;
+            }
+          } else {
+            if (!isNaN(reponse[i])) {
+              if (lastWasANumber) {
+                numbers[numberIndex] += reponse[i];
+              } else {
+                numbers[numberIndex] += reponse[i];
+                lastWasANumber = true;
+              }
+            } else {
+              if (lastWasANumber) {
+                numberIndex++;
+                numbers[numberIndex] = "";
+              }
+              lastWasANumber = false;
+            }
+          }
+        }
+
+        for (let i = 0; i < numbers.length; i++) {
+          numbers[i] = Number(numbers[i]);
+        }
+
+        promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
+
+        if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
+          promptTree.constraintIndex++;
+          if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
+            setNextPrompt(this, promptTree.constrainByIntRange);
+          } else {
+            setNextPrompt(this, promptTree.constrainByStrRange);
+          }
+        } else {
+          setNextPrompt(this, promptTree.resultPrompt);
+        }
+      }
+    }
+
+    this.constrainByStrRange = {
+      getPrompt: function () {
+        return `What text do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
+      },
+
+      getChoices: function () {
+        return [`${promptTree.constraintColumns[promptTree.constraintIndex]} should be TEXT`,
+        `${promptTree.constraintColumns[promptTree.constraintIndex]} should include TEXT`];
+      },
+
+      respond: function (response) {
+        if (response.includes("include")) {
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `CONTAINS ${response}` };
+        } else {
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `= ${response}` };
+        }
+
+        if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
+          promptTree.constraintIndex++;
+          if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
+            setNextPrompt(this, promptTree.constrainByIntRange);
+          } else {
+            setNextPrompt(this, promptTree.constrainByStrRange);
+          }
+        } else {
+          setNextPrompt(this, promptTree.resultPrompt);
+        }
+      }
+    }
+
+    this.resultPrompt = {
+      getPrompt: function () {
+        if (!promptTree.constraintColumns || !promptTree.constraintColumns.length) {
+          return `SELECT ${promptTree.column} FROM ${promptTree.table};`
+        } else {
+          return `SELECT ${promptTree.column} FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
+            if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
+              return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
+            } else {
+              return `${col} ${promptTree.constraintRanges[index].constraint} `;
+            }
+          }).join(" AND ")};`
+        }
+      },
+
+      getChoices: function () {
+        return [];
+      },
+
+      respond: function () {
+        setNextPrompt(this, this);
+      }
+    };
+
+
+    this.invalidPrompt = {
+      redirect: true,
+
+      getPrompt: function () {
+        return this.prompt;
+      },
+      getChoices: function () {
+        return [];
+      },
+
+      initialize(prompt, previousResponse) {
+        this.nextPrompt = prompt
+        this.prompt = `${previousResponse} is not a valid response. Please try again.`;
+      }
+    }
+
+    this.runIsInvalidReponse = function (currentPrompt, invalidResponse) {
+      currentPrompt.nextPrompt = promptTree.invalidPrompt;
+      promptTree.invalidPrompt.initialize(currentPrompt, invalidResponse)
+    }
   }
 }
 
 
-function goToNextAndInitialize(currPrompt, nextPrompt) {
-  nextPrompt.initialize()
-  currPrompt.nextPrompt = nextPrompt
+function setNextPrompt(currPrompt, nextPrompt, args = []) {
+  currPrompt.nextPrompt = nextPrompt;
+  nextPrompt.previousPrompt = currPrompt;
 }
