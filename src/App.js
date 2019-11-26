@@ -65,7 +65,7 @@ export class App extends Component {
                 return (
                   <Toast className="speech-bubble-right">
                     <ToastHeader>
-                      <p><strong>SqueezyBot</strong></p>
+                <p><strong>{entry.speaker}</strong></p>
                     </ToastHeader>
                     <ToastBody>
                       <div>
