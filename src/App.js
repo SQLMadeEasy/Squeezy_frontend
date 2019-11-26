@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { sendMessage } from './chat'
+import { sendMessage, setUpInitialState } from './chat'
 import './App.css'
+import { getTables } from "./dummydata"
 import {
   Row,
   Jumbotron,
@@ -11,6 +12,7 @@ import {
   Navbar,
   NavbarBrand,
 } from 'reactstrap'
+
 
 
 export class App extends Component {
@@ -30,6 +32,12 @@ export class App extends Component {
       e.target.value = ''
     }
 
+  }
+
+  async componentDidMount() {
+    console.log("hello")
+    const response = await getTables();
+    this.props.setUpInitialState(response.data);
   }
 
   render() {
@@ -81,11 +89,14 @@ export class App extends Component {
   }
 }
 
-
+const mapDispatchToProps = dispatch => ({
+  setUpInitialState: (tables) => dispatch(setUpInitialState(tables)),
+  sendMessage: (text) => dispatch(sendMessage(text))
+})
 
 const mapStateToProps = state => ({
   feed: state
 })
 
 
-export default connect(mapStateToProps, { sendMessage })(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

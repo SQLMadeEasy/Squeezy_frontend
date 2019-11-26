@@ -1,8 +1,12 @@
-
+import axios from 'axios'
 const INTEGER = "INTEGER";
 const STRING = "STRING";
 
-export const tables = {
+export const getTables = async () => await axios.get('http://localhost:8080/schema')
+
+export const tables = getTables();
+
+export const defaultTables = {
 
   users: {
     name: STRING,
@@ -31,16 +35,3 @@ export const tables = {
 
 
 
-export function isTable(str) {
-  if (tables[str]) {
-    return true
-  }
-  return false
-}
-
-export function isColumn(table, column) {
-  if (tables[table][column] !== undefined) {
-    return true
-  }
-  return false
-}
