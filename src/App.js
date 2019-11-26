@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import {sendMessage} from './chat'
+import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
 import { 
   Row, 
@@ -47,7 +48,9 @@ export class App extends Component {
           </Navbar>
           <p className="tagline">SQL Made Easy For Your Convenience</p>      
         </div>
-      
+
+      <div>
+      <FreeScrollBar style={{width: '100%', height: '380px'}}>  
         <div className="main">
           {feed.map((entry, idx) => {
             return (
@@ -71,10 +74,10 @@ export class App extends Component {
             )
             }           
           )}
-        </div> 
-        <div>
-          
-        </div>
+        </div>         
+    </FreeScrollBar> 
+
+      </div>
            <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
         </div>
     )

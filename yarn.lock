@@ -8056,7 +8056,7 @@ react-dev-utils@^9.1.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-dom@^16.12.0:
+react-dom@^16.1.1, react-dom@^16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
   integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
@@ -8070,6 +8070,14 @@ react-error-overlay@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.3.tgz#c378c4b0a21e88b2e159a3e62b2f531fd63bf60d"
   integrity sha512-bOUvMWFQVk5oz8Ded9Xb7WVdEi3QGLC8tH7HmYP0Fdp4Bn3qw0tRFmr5TW6mvahzvmrK4a6bqWGfCevBflP+Xw==
+
+react-free-scrollbar@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/react-free-scrollbar/-/react-free-scrollbar-0.3.4.tgz#9f891806fc706f550e18bbaf4a396b9d5a5aa5a2"
+  integrity sha512-MXzWAhR9jfsxe2UjWq6E8xaQtV5zmTg12qsM/p4f9ihR2ERAVHcx7wxu5zt9ifE7ngXyC++o+Ut4RN2iDoPJNg==
+  dependencies:
+    react "^16.1.1"
+    react-dom "^16.1.1"
 
 react-is@^16.7.0, react-is@^16.9.0:
   version "16.12.0"
@@ -8186,7 +8194,7 @@ react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@^16.12.0:
+react@^16.1.1, react@^16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
   integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
