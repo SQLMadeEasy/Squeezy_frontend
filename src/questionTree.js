@@ -34,6 +34,7 @@ export class PromptTree {
     this.startNode = this.tablePrompt;
     this.curNode = this.tablePrompt;
 
+    
     this.columnPrompt = {
       getPrompt() {
         return `What about ${promptTree.table} are you interested in?`;

@@ -12,14 +12,28 @@ import {
   NavbarBrand,
 } from 'reactstrap'
 
+
 export class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      userInput: ''
+    }
+    this.handleInputSubmit = this.handleInputSubmit.bind(this)
+  }
+
+  handleInputSubmit(e) {
+    const { sendMessage } = this.props
+
+    if (e.keyCode === 13) {
+      sendMessage(e.target.value)
+      e.target.value = ''
+    }
+
+  }
 
   render() {
-    const { feed, sendMessage } = this.props
-
-    function bottom() {
-      document.getElementsByClassName('user-message-field')[0].scrollIntoView();
-    };
+    const { feed } = this.props
 
     return (
       <div>
@@ -32,7 +46,6 @@ export class App extends Component {
               </NavbarBrand>
           </Navbar>
           <p className="tagline">SQL Made Easy For Your Convenience</p>
-
         </div>
 
         <div className="main">
@@ -41,7 +54,7 @@ export class App extends Component {
               <div>
                 <Row key={idx} className="speech-bubble-right">
                   <div className='speech-bubble-text-body'>
-                    <p><strong>Demo Speech Bubble</strong></p>
+                    <p><strong>SqueezyBot</strong></p>
                     <p>{entry.text}</p>
                     {entry.choices.length > 0 ?
                       <ol>
@@ -62,14 +75,7 @@ export class App extends Component {
         <div>
 
         </div>
-        <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={(e) => {
-          if (e.keyCode === 13) {
-            document.getElementsByClassName('speech-bubble-right')[0].scrollIntoView();
-            sendMessage(e.target.value)
-            e.target.value = ''
-          }
-        }}
-        />
+        <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
       </div>
     )
   }
@@ -77,9 +83,9 @@ export class App extends Component {
 
 
 
-
 const mapStateToProps = state => ({
   feed: state
 })
+
 
 export default connect(mapStateToProps, { sendMessage })(App)
