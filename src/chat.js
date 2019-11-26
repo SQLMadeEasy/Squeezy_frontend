@@ -13,6 +13,8 @@ const client = new ApiAiClient({ accessToken })
 //ACTION TYPE
 const ON_MESSAGE = "ON_MESSAGE"
 
+const INITIAL_STATE = "INITIAL_STATE"
+
 
 //ACTION CREATOR
 export const sendMessage = (text, choices = [], speaker) => {
@@ -44,11 +46,11 @@ const messageMiddleware = () => next => action => {
 
     console.log("current node: ", promptTree.curNode)
     console.log("next prompt", promptTree.curNode.nextPrompt)
-    
+
     promptTree.curNode.respond(text)
     promptTree.curNode = promptTree.curNode.nextPrompt
-    
-   
+
+
     while (promptTree.curNode.redirect) {
       next(sendMessage(promptTree.curNode.getPrompt(), promptTree.curNode.getChoices()))
 
@@ -58,6 +60,8 @@ const messageMiddleware = () => next => action => {
     }
 
     next(sendMessage(promptTree.curNode.getPrompt(), promptTree.curNode.getChoices()))
+  } else {
+    next(action)
   }
 }
 
@@ -74,17 +78,37 @@ const logger = createLogger({
 
 const initState = [
   {
-    text: promptTree.curNode.getPrompt(),
-    choices: promptTree.curNode.getChoices(),
-    speaker: 'chatBot'
+    // text: promptTree.curNode.getPrompt(),
+    // choices: promptTree.curNode.getChoices(),
+    // speaker: 'chatBot'
+    text: "",
+    choices: [],
+    speaker: "chatBot"
   }
 ]
 
+export const setUpInitialState = (tables) => {
+  console.log("we ran")
+  promptTree.setupTables(tables)
+  return {
+    type: INITIAL_STATE,
+    payload: {
+      text: promptTree.curNode.getPrompt(),
+      choices: promptTree.curNode.getChoices(),
+      speaker: 'chatBot'
+    },
+  }
+}
+
 const messageReducer = (state = initState, action) => {
+  console.log('before the switch', state, action)
   switch (action.type) {
+    case INITIAL_STATE:
+      return [action.payload]
     case ON_MESSAGE:
       return [...state, action.payload]
     default:
+      console.log('default is hit')
       return state
   }
 }

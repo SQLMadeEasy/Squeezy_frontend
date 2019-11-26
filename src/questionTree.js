@@ -1,7 +1,23 @@
-import { isTable, isColumn, tables } from './dummydata'
 
 const INTEGER = "INTEGER";
 const STRING = "STRING";
+
+let tables;
+
+export function isTable(str) {
+  if (tables[str]) {
+    return true
+  }
+  return false
+}
+
+export function isColumn(table, column) {
+  if (tables[table][column] !== undefined) {
+    return true
+  }
+  return false
+}
+
 
 
 export class PromptTree {
@@ -34,7 +50,7 @@ export class PromptTree {
     this.startNode = this.tablePrompt;
     this.curNode = this.tablePrompt;
 
-    
+
     this.columnPrompt = {
       getPrompt() {
         return `What about ${promptTree.table} are you interested in?`;
@@ -255,6 +271,10 @@ export class PromptTree {
       currentPrompt.nextPrompt = promptTree.invalidPrompt;
       promptTree.invalidPrompt.initialize(currentPrompt, invalidResponse)
     }
+  }
+
+  setupTables(t) {
+    tables = t;
   }
 }
 
