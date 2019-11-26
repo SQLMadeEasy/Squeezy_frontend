@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { sendMessage, setUpInitialState } from './chat'
+import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
-import { getTables } from "./dummydata"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Row,
   Jumbotron,
@@ -10,8 +11,11 @@ import {
   ToastBody,
   ToastHeader,
   Navbar,
+  InputGroup,
   NavbarBrand,
 } from 'reactstrap'
+import Sidebar from './components/Sidebar'
+import { getTables } from "./dummydata";
 
 
 
@@ -56,34 +60,44 @@ export class App extends Component {
           <p className="tagline">SQL Made Easy For Your Convenience</p>
         </div>
 
-        <div className="main">
-          {feed.map((entry, idx) => {
-            return (
-              <div>
-                <Row key={idx} className="speech-bubble-right">
-                  <div className='speech-bubble-text-body'>
-                    <p><strong>SqueezyBot</strong></p>
-                    <p>{entry.text}</p>
-                    {entry.choices.length > 0 ?
-                      <ol>
-                        {entry.choices.map(choice => <li>{choice}</li>)}
-                      </ol>
-                      :
-                      null
-                    }
-                    <div class="speech-bubble-right-arrow"></div>
-                  </div>
-                </Row>
-                <br />
-              </div>
-            )
-          }
-          )}
-        </div>
-        <div>
 
+        <div>
+          <FreeScrollBar style={{ width: '100%', height: '310px' }}>
+            <div className="main">
+              {feed.map((entry, idx) => {
+                return (
+                  <Toast className="speech-bubble-right">
+                    <ToastHeader>
+                      <p><strong>SqueezyBot</strong></p>
+                    </ToastHeader>
+                    <ToastBody>
+                      <div>
+                        <Row key={idx}>
+                          <div className='speech-bubble-text-body'>
+                            <p>{entry.text}</p>
+                            {entry.choices.length > 0 ?
+                              <ol>
+                                {entry.choices.map(choice => <li>{choice}</li>)}
+                              </ol>
+                              :
+                              null
+                            }
+                            <div class="speech-bubble-right-arrow"></div>
+                          </div>
+                        </Row>
+                        <br />
+                      </div>
+                    </ToastBody>
+                  </Toast>
+                )
+              }
+              )}
+            </div>
+          </FreeScrollBar>
         </div>
-        <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
+        <InputGroup>
+          <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
+        </InputGroup>
       </div>
     )
   }
