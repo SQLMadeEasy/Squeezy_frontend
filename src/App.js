@@ -11,8 +11,10 @@ import {
   ToastBody,
   ToastHeader,
   Navbar,
+  InputGroup,
   NavbarBrand,
 } from 'reactstrap'
+import Sidebar from './components/Sidebar'
 
 
 export class App extends Component {
@@ -52,14 +54,18 @@ export class App extends Component {
 
       
       <div>
-      <FreeScrollBar style={{width: '100%', height: '280px'}}>        
+      <FreeScrollBar style={{width: '100%', height: '310px'}}>        
         <div className="main">
           {feed.map((entry, idx) => {
             return (
-              <div>
-                <Row key={idx} className="speech-bubble-right">
+              <Toast className="speech-bubble-right">
+                <ToastHeader>
+                <p><strong>SqueezyBot</strong></p>
+                </ToastHeader>
+                <ToastBody>
+                <div>
+                <Row key={idx}>
                   <div className='speech-bubble-text-body'>
-                    <p><strong>SqueezyBot</strong></p>
                     <p>{entry.text}</p>
                     {entry.choices.length > 0 ?
                       <ol>
@@ -73,13 +79,17 @@ export class App extends Component {
                 </Row>
                 <br />
               </div>
+                </ToastBody>
+              </Toast>
             )
           }
           )}
         </div>         
     </FreeScrollBar> 
       </div>
-           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
+      <InputGroup>
+      <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
+      </InputGroup>
       </div>
     )
   }
