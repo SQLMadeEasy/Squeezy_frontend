@@ -1,6 +1,6 @@
 
-const INTEGER = "INTEGER";
-const STRING = "STRING";
+const INTEGER = "integer";
+const STRING = "string";
 
 let tables;
 
@@ -199,7 +199,7 @@ export class PromptTree {
 
       respond: function (response) {
         if (response.includes("include")) {
-          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `CONTAINS ${response}` };
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
         } else {
           promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `= ${response}` };
         }
@@ -228,10 +228,10 @@ export class PromptTree {
                 if (promptTree.constraintRanges[index].max) {
                   return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
                 } else {
-                  return `${col} GREATER THAN ${promptTree.constraintRanges[index].min}`;
+                  return `${col} > ${promptTree.constraintRanges[index].min}`;
                 }
               } else {
-                return `${col} LESS THAN ${promptTree.constraintRanges[index].max}`;
+                return `${col} < ${promptTree.constraintRanges[index].max}`;
               }
               // return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
             } else {

@@ -33,7 +33,7 @@ export const sendMessage = (text, choices = [], speaker) => {
 const messageMiddleware = () => next => action => {
   if (action.type === ON_MESSAGE) {
     let { text } = action.payload
-    text = text.toLowerCase();
+    // text = text.toLowerCase();
 
     next(sendMessage(text, [], 'user'))
     // client.textRequest(text)
