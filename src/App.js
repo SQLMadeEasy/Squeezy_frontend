@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
+
 import {connect} from 'react-redux'
 import {sendMessage} from './chat'
-import FreeScrollBar from 'react-free-scrollbar';
-
+import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { 
   Row, 
   Jumbotron, 
@@ -12,71 +13,76 @@ import {
   ToastHeader,
   Navbar,
   NavbarBrand,
-  } from 'reactstrap'
+} from 'reactstrap'
+
 
 export class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      userInput: ''
+    }
+    this.handleInputSubmit = this.handleInputSubmit.bind(this)
+  }
+
+  handleInputSubmit(e) {
+    const { sendMessage } = this.props
+
+    if (e.keyCode === 13) {
+      sendMessage(e.target.value)
+      e.target.value = ''
+    }
+
+  }
 
   render() {
-    const {feed, sendMessage} = this.props
-
-    function bottom() {
-      document.getElementsByClassName( 'user-message-field' )[0].scrollIntoView();
-    };
+    const { feed } = this.props
 
     return (
       <div>
         <div>
           <Jumbotron className="header">
-            <h1>Welcome to Squeezy!</h1>         
+            <h1>Welcome to Squeezy!</h1>
           </Jumbotron>
           <Navbar color="dark">
-              <NavbarBrand href="/" className="Home">Home
+            <NavbarBrand href="/" className="Home">Home
               </NavbarBrand>
           </Navbar>
           <p className="tagline">SQL Made Easy For Your Convenience</p>
-          
         </div>
+
       
+      <div>
+      <FreeScrollBar style={{width: '100%', height: '280px'}}>        
         <div className="main">
-          <div style={{ width: '100vw', height: '400px' }}>
-            <FreeScrollBar>
-              {feed.map((entry, idx) => {
-                return (
-                  <div>
-                    <Row key={idx} className="speech-bubble-right">
-                      <div className='speech-bubble-text-body'>
-                        <p><strong>Demo Speech Bubble</strong></p>
-                        <p>{entry.text}</p>
-                        {entry.choices.length > 0 ?
-                          <ol>
-                            {entry.choices.map(choice => <li>{choice}</li>)}
-                          </ol>
-                          :
-                          null
-                        }
-                        <div class="speech-bubble-right-arrow"></div>
-                      </div>
-                    </Row>
-                    <br />
+          {feed.map((entry, idx) => {
+            return (
+              <div>
+                <Row key={idx} className="speech-bubble-right">
+                  <div className='speech-bubble-text-body'>
+                    <p><strong>SqueezyBot</strong></p>
+                    <p>{entry.text}</p>
+                    {entry.choices.length > 0 ?
+                      <ol>
+                        {entry.choices.map(choice => <li>{choice}</li>)}
+                      </ol>
+                      :
+                      null
+                    }
+                    <div class="speech-bubble-right-arrow"></div>
                   </div>
-                )
-              }
-              )}
-            </FreeScrollBar>
-          </div>
-    
-        </div> 
-        <div>
-          
-        </div>
-           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={(e) => {
-             if (e.keyCode === 13) {
-              document.getElementsByClassName( 'speech-bubble-right' )[0].scrollIntoView();
-               sendMessage(e.target.value)
-               e.target.value = ''
-             }
-           }}
-           />
+                </Row>
+                <br />
+              </div>
+            )
+          }
+          )}
+
+        </div>         
+    </FreeScrollBar> 
+
+      </div>
+           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
       </div>
     )
   }
@@ -84,9 +90,9 @@ export class App extends Component {
 
 
 
-
 const mapStateToProps = state => ({
   feed: state
 })
 
-export default connect(mapStateToProps, {sendMessage})(App)
+
+export default connect(mapStateToProps, { sendMessage })(App)

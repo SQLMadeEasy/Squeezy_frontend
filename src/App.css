@@ -4,9 +4,6 @@ body {
     color:black
 }
 
-/* h1 {
-    font-family: 'Playfair Display', serif !important;
-} */
 
 .tagline {
     margin-left: 45px;
@@ -38,6 +35,15 @@ body {
     position: relative;
 }
 
+.responseBubble {
+    display:block;
+    font-family: 'Playfair Display', serif !important;
+    border: .2em solid black;
+    background: white;
+}
+
+
+
 .speech-bubble-text-body {
     padding-right: 2em;
     padding-left: 2em;
@@ -66,6 +72,6 @@ body {
   position: fixed;
   bottom:20px;
   margin-top: 200px;
-  margin-bottom: 200px;
+  margin-bottom: 150px;
   border: 2px solid grey !important;
 }
