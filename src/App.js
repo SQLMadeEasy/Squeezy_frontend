@@ -1,10 +1,13 @@
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { sendMessage } from './chat'
+
+import {connect} from 'react-redux'
+import {sendMessage} from './chat'
+import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
-import {
-  Row,
-  Jumbotron,
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { 
+  Row, 
+  Jumbotron, 
   Toast,
   ToastBody,
   ToastHeader,
@@ -48,6 +51,9 @@ export class App extends Component {
           <p className="tagline">SQL Made Easy For Your Convenience</p>
         </div>
 
+      
+      <div>
+      <FreeScrollBar style={{width: '100%', height: '280px'}}>        
         <div className="main">
           {feed.map((entry, idx) => {
             return (
@@ -71,11 +77,12 @@ export class App extends Component {
             )
           }
           )}
-        </div>
-        <div>
 
-        </div>
-        <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
+        </div>         
+    </FreeScrollBar> 
+
+      </div>
+           <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
       </div>
     )
   }
