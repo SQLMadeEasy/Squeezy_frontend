@@ -50,8 +50,9 @@ export class App extends Component {
           <p className="tagline">SQL Made Easy For Your Convenience</p>
         </div>
 
+      
       <div>
-      <FreeScrollBar style={{width: '100%', height: '280px'}}>  
+      <FreeScrollBar style={{width: '100%', height: '280px'}}>        
         <div className="main">
           {feed.map((entry, idx) => {
             return (
