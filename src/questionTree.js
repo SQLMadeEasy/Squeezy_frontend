@@ -113,40 +113,50 @@ export class PromptTree {
         return [];
       },
 
-      respond(reponse) {
-        reponse = reponse.split(" ").join(",");
-        const numbers = [""];
-        let numberIndex = 0;
-        let lastWasANumber = false;
-        for (let i = 0; i < reponse.length; i++) {
-          if (i === 0) {
-            if (!isNaN(reponse[0])) {
-              numbers[0] += reponse[0];
-              lastWasANumber = true;
-            }
-          } else {
-            if (!isNaN(reponse[i])) {
-              if (lastWasANumber) {
-                numbers[numberIndex] += reponse[i];
-              } else {
-                numbers[numberIndex] += reponse[i];
-                lastWasANumber = true;
-              }
-            } else {
-              if (lastWasANumber) {
-                numberIndex++;
-                numbers[numberIndex] = "";
-              }
-              lastWasANumber = false;
-            }
-          }
-        }
+      respond(response) {
+        // reponse = reponse.split(" ").join(",");
+        // const numbers = [""];
+        // let numberIndex = 0;
+        // let lastWasANumber = false;
+        // for (let i = 0; i < reponse.length; i++) {
+        //   if (i === 0) {
+        //     if (!isNaN(reponse[0])) {
+        //       numbers[0] += reponse[0];
+        //       lastWasANumber = true;
+        //     }
+        //   } else {
+        //     if (!isNaN(reponse[i])) {
+        //       if (lastWasANumber) {
+        //         numbers[numberIndex] += reponse[i];
+        //       } else {
+        //         numbers[numberIndex] += reponse[i];
+        //         lastWasANumber = true;
+        //       }
+        //     } else {
+        //       if (lastWasANumber) {
+        //         numberIndex++;
+        //         numbers[numberIndex] = "";
+        //       }
+        //       lastWasANumber = false;
+        //     }
+        //   }
+        // }
 
-        for (let i = 0; i < numbers.length; i++) {
-          numbers[i] = Number(numbers[i]);
-        }
+        // for (let i = 0; i < numbers.length; i++) {
+        //   numbers[i] = Number(numbers[i]);
+        // }                "20 - 40"
+        // let numbers;
+        // if (response[0] === "-") {
+        //   numbers = []
+        //   numbers[1] = response.split("-")[1];
+        //   console.log(numbers)
+        // } else {
+
+        // }
+        let numbers = response.split("-");
 
         promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
+        console.log({ min: numbers[0], max: numbers[1] })
 
         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
           promptTree.constraintIndex++;
@@ -198,7 +208,16 @@ export class PromptTree {
         } else {
           return `SELECT ${promptTree.column} FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
-              return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
+              if (promptTree.constraintRanges[index].min) {
+                if (promptTree.constraintRanges[index].max) {
+                  return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
+                } else {
+                  return `${col} GREATER THAN ${promptTree.constraintRanges[index].min}`;
+                }
+              } else {
+                return `${col} LESS THAN ${promptTree.constraintRanges[index].max}`;
+              }
+              // return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
             } else {
               return `${col} ${promptTree.constraintRanges[index].constraint} `;
             }

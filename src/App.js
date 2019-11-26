@@ -12,11 +12,11 @@ import {
   ToastHeader,
   Navbar,
   NavbarBrand,
-  } from 'reactstrap'
+} from 'reactstrap'
 
 
 export class App extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       userInput: ''
@@ -25,29 +25,29 @@ export class App extends Component {
   }
 
   handleInputSubmit(e) {
-    const {sendMessage} = this.props
-     
-      if (e.keyCode === 13) {
-        sendMessage(e.target.value) 
-        e.target.value = ''
-      }
-      
+    const { sendMessage } = this.props
+
+    if (e.keyCode === 13) {
+      sendMessage(e.target.value)
+      e.target.value = ''
+    }
+
   }
 
   render() {
-    const {feed} = this.props
+    const { feed } = this.props
 
     return (
       <div>
         <div>
           <Jumbotron className="header">
-            <h1>Welcome to Squeezy!</h1>         
+            <h1>Welcome to Squeezy!</h1>
           </Jumbotron>
           <Navbar color="dark">
-              <NavbarBrand href="/" className="Home">Home
+            <NavbarBrand href="/" className="Home">Home
               </NavbarBrand>
           </Navbar>
-          <p className="tagline">SQL Made Easy For Your Convenience</p>      
+          <p className="tagline">SQL Made Easy For Your Convenience</p>
         </div>
 
       <div>
@@ -70,14 +70,13 @@ export class App extends Component {
                     <div class="speech-bubble-right-arrow"></div>
                   </div>
                 </Row>
-              <br />  
+                <br />
               </div>
             )
-            }           
+          }
           )}
         </div>         
     </FreeScrollBar> 
-
       </div>
            <input className='user-message-field' type="text" placeholder= "Type Response Here" onKeyDown={this.handleInputSubmit}/>
       </div>
@@ -92,4 +91,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {sendMessage})(App)
+export default connect(mapStateToProps, { sendMessage })(App)
