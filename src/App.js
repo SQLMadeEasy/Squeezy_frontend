@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { sendMessage, setUpInitialState } from './chat'
+import {loadData} from './data'
 import FreeScrollBar from 'react-free-scrollbar'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -42,6 +43,7 @@ export class App extends Component {
     console.log("hello")
     const response = await getTables();
     this.props.setUpInitialState(response.data);
+    this.props.loadData('SELECT * FROM users')
   }
 
   render() {
@@ -102,11 +104,12 @@ export class App extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setUpInitialState: (tables) => dispatch(setUpInitialState(tables)),
-  sendMessage: (text) => dispatch(sendMessage(text))
+  sendMessage: (text) => dispatch(sendMessage(text)),
+  loadData: (query) => dispatch(loadData(query)),
 })
 
 const mapStateToProps = state => ({
-  feed: state
+  feed: state.chat
 })
 
 

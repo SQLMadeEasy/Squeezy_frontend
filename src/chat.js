@@ -1,7 +1,7 @@
 import { ApiAiClient } from 'api-ai-javascript'
-import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import { PromptTree } from './questionTree'
+import axios from 'axios'
 
 
 const promptTree = new PromptTree()
@@ -29,8 +29,16 @@ export const sendMessage = (text, choices = [], speaker) => {
 }
 
 
+export const loadData = (query) => {
+  return dispatch => {
+    const response = axios.get('http://localhost:8080/schema/run_query', {query})
+    dispatch(loadData(response.data))
+  }
+}
+
+
 //GRABBING RESPONSE FROM TEXT REQUEST
-const messageMiddleware = () => next => action => {
+export const messageMiddleware = () => next => action => {
   if (action.type === ON_MESSAGE) {
     let { text } = action.payload
     // text = text.toLowerCase();
@@ -68,7 +76,7 @@ const messageMiddleware = () => next => action => {
 
 
 
-const logger = createLogger({
+export const logger = createLogger({
   predicate: (getState, action) => {
     //  return ![].includes(action.type);
     // Return false if you don't want to log anything.
@@ -113,5 +121,6 @@ const messageReducer = (state = initState, action) => {
   }
 }
 
+export default messageReducer
 
-export const Store = createStore(messageReducer, applyMiddleware(messageMiddleware, logger))
+
