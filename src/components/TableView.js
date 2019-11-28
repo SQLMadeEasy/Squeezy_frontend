@@ -6,13 +6,19 @@ import {loadData} from '../data'
 
 class TableView extends Component {
 
+async componentDidMount () {
+  this.props.loadData('SELECT * FROM users')
+}
 
   render() {
     const { data } = this.props
+    console.log('DATA', data)
 
       return (
         <div>
-                <Toast className="Table">
+          {data.queryData.map((row) => {
+            return (
+              <Toast className="Table">
                 <Table hover>
                 <thead>
                   <tr>
@@ -42,8 +48,10 @@ class TableView extends Component {
                   </tr>
                 </tbody>
                </Table>
-              </Toast>           
-            )}
+              </Toast> 
+            )
+          })}
+          }}                 
           </div>
           )
   } 
@@ -55,7 +63,9 @@ const mapStateToProps = state => ({
   data: state.data
 })
 
+const mapDispatchToProps = dispatch => ({
+  loadData: (query) => dispatch(loadData(query))
+})
 
 
-
-export default connect(mapStateToProps, null)(TableView)
+export default connect(mapStateToProps, mapDispatchToProps)(TableView)
