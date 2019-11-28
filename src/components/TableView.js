@@ -1,23 +1,26 @@
 import { Table, Toast } from 'reactstrap'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {loadData} from '../data'
 
 
 class TableView extends Component {
+
+
   render() {
     const { data } = this.props
 
-    for (let col in data.queryData) {
+    // for (let col in data.queryData) {
       return (
-        <>
+        <div>
                 <Toast className="Table">
                 <Table hover>
                 <thead>
                   <tr>
-                    <th>{col}</th>
-                    {/* <th>First Name</th>
+                    {/* <th>{col}</th> */}
+                    <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Username</th> */}
+                    <th>Username</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -43,16 +46,19 @@ class TableView extends Component {
                </Table>
               </Toast>           
             )}
-          </>
+          </div>
           )
-      }
+  //    }
   } 
 }
 
 
 const mapStateToProps = state => ({
+  chat: state.chat,
   data: state.data
 })
+
+
 
 
 export default connect(mapStateToProps, null)(TableView)

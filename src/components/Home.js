@@ -34,13 +34,17 @@ class Home extends Component {
       sendMessage(e.target.value)
       e.target.value = ''
     }
-
   }
 
   async componentDidMount() {
-    console.log("hello")
     const response = await getTables();
+    const { feed } = this.props
+
+    
+    console.log('TEXT???', feed)
+
     this.props.setUpInitialState(response.data);
+    this.props.loadData(feed[feed.length-1].text)
   }
 
   render() {
@@ -107,7 +111,6 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   feed: state.chat
-
 })
 
 
