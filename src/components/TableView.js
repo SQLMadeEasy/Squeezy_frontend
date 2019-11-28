@@ -10,14 +10,12 @@ class TableView extends Component {
   render() {
     const { data } = this.props
 
-    // for (let col in data.queryData) {
       return (
         <div>
                 <Toast className="Table">
                 <Table hover>
                 <thead>
                   <tr>
-                    {/* <th>{col}</th> */}
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Username</th>
@@ -48,7 +46,6 @@ class TableView extends Component {
             )}
           </div>
           )
-  //    }
   } 
 }
 

@@ -14,6 +14,7 @@ import {
 } from 'reactstrap'
 import Sidebar from '../components/Sidebar'
 import { getTables } from "../dummydata";
+import TableView from './TableView'
 
 
 
@@ -38,13 +39,9 @@ class Home extends Component {
 
   async componentDidMount() {
     const response = await getTables();
-    const { feed } = this.props
-
     
-    console.log('TEXT???', feed)
-
     this.props.setUpInitialState(response.data);
-    this.props.loadData(feed[feed.length-1].text)
+    this.props.loadData('SELECT * FROM users')
   }
 
   render() {
@@ -98,6 +95,9 @@ class Home extends Component {
         <InputGroup className = 'user-message-field-container'>
           <input className='user-message-field' type="text" placeholder="Type Response Here" onKeyDown={this.handleInputSubmit} />
         </InputGroup>
+        {/* <>
+        <TableView feed={this.props.feed} data={this.props.data}></TableView>
+        </> */}
       </div>
     )
   }
@@ -110,7 +110,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  feed: state.chat
+  feed: state.chat,
+  data: state.data
 })
 
 
