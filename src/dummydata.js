@@ -2,7 +2,7 @@ import axios from 'axios'
 const INTEGER = "integer";
 const STRING = "string";
 
-export const getTables = async () => await axios.get('http://localhost:8080/schema')
+export const getTables = async () => await axios.get('/schema')
 
 export const tables = getTables();
 
