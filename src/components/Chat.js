@@ -117,7 +117,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   feed: state.chat,
-  data: state.data
+  data: state.data,
+  credentials: state.credentials,
 })
 
 

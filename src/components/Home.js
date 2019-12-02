@@ -1,15 +1,29 @@
 import React, {useState} from 'react'
 import {withRouter} from 'react-router-dom'
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { connect } from 'react-redux'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText  } from 'reactstrap';
+import { saveCredentials } from '../credentials';
 
 
 const Home = (props) => {
     const [modal, setModal] = useState(false);
+    const [databaseUser, setDatabaseUser] = useState("")
+    const [databaseName, setDatabaseName] = useState("")
+    const [databasePassword, setDatabasePassword] = useState("")
+    const [databaseHostname, setDatabaseHostname] = useState("")
+    const [databasePort, setDatabasePort] = useState("")
+
+
     const toggle = () => setModal(!modal);
 
     function connectDb() {
         props.history.push('/chat')
+    }
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        console.log(databaseUser)
+        saveCredentials({databaseUser, databaseName, databasePassword, databaseHostname, databasePort})
     }
 
         return (
@@ -21,7 +35,29 @@ const Home = (props) => {
                     <Modal isOpen={modal} toggle={toggle} className='connect-db-modal'>
                         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
                         <ModalBody>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            <Form onSubmit={handleSubmit}>
+                                <FormGroup>
+                                    <Label for="databaseUser">Database Username</Label>
+                                    <Input type="text" name="databaseUser" value={databaseUser} onChange={e => setDatabaseUser(e.target.value)} id="databaseUser" placeholder="my database username" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="databaseName">Database Name</Label>
+                                    <Input type="text" name="databaseName" value={databaseName} onChange={e => setDatabaseName(e.target.value)} id="databaseName" placeholder="my_database" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="databasePassword">Database Password</Label>
+                                    <Input type="password" name="password" value={databasePassword} onChange={e => setDatabasePassword(e.target.value)} id="databasePassword" placeholder="my password" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="databaseHostname">Hostname</Label>
+                                    <Input type="text" name="databaseHosename" value={databaseHostname} onChange={e => setDatabaseHostname(e.target.value)} id="databaseHostname" placeholder="my hostname" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="databasePort">Port</Label>
+                                    <Input type="text" name="databasePort" value={databasePort} onChange={e => setDatabasePort(e.target.value)} id="databasePort" placeholder="my port" />
+                                </FormGroup>
+                                <Button>Submit</Button>
+                            </Form>
         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={connectDb}>Do Something</Button>{' '}
@@ -33,4 +69,12 @@ const Home = (props) => {
         )
 }
 
-export default withRouter(Home)
+const mapDispatchToProps = dispatch => ({
+    saveCredentials: (credentials) => dispatch(saveCredentials(credentials))
+})
+
+const mapStateToProps = state => ({
+    credentials: state.credentials
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Home))

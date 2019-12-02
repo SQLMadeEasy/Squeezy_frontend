@@ -12,9 +12,10 @@ const client = new ApiAiClient({ accessToken })
 
 //ACTION TYPE
 const ON_MESSAGE = "ON_MESSAGE"
-
 const INITIAL_STATE = "INITIAL_STATE"
 const REHYDRATE = "REHYDRATE"
+
+
 
 
 //ACTION CREATOR
@@ -89,6 +90,8 @@ const initState = [
     placeholder: ''
   }
 ]
+
+
 
 export const setUpInitialState = (tables) => {
   console.log("we ran")
