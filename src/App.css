@@ -4,6 +4,26 @@ body {
     color:black
 }
 
+.home-body {
+  height: 100vh;
+  width: 100vw;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.app-welcome-content {
+  text-align:center;
+}
+
+.app-header {
+  margin: 0 auto;
+}
+
+.app-subheader {
+  margin: 0 auto;
+}
+
 .chat-header {
     text-align:center;
 }
