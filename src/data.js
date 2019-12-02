@@ -15,7 +15,7 @@ export const loadData = (query) => {
         console.log('query is ', query)
         const response = await axios({
             method: 'post',
-            url: '/schema/run_query',
+            url: 'https://englishql-backend.onrender.com/schema/run_query',
             data: {query: query}
         });
         dispatch(loadDataAction(response.data))
