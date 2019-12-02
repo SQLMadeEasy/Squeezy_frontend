@@ -1,10 +1,21 @@
-import React, { Component } from 'react'
+import React from "react";
+import { slide as Menu } from "react-burger-menu";
 
+export default props => {
+  return (
+    <Menu>
+      <a className="menu-item" href="/">
+        Home
+      </a>
 
-export default class Sidebar extends Component {
-  render() {
-    return <div className="sidebar-container">
-      I'm the sidebar!
-    </div>
-  }
-}
+      <a className="menu-item" href="/about">
+        About
+      </a>
+
+      <a className="menu-item" href="/contact">
+        Contact
+      </a>
+
+    </Menu>
+  );
+};
