@@ -15,6 +15,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
     "react-strap": "^0.0.1",
+    "react-table": "^7.0.0-beta.22",
     "reactstrap": "^8.1.1",
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",

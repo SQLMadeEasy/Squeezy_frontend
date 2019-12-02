@@ -8350,6 +8350,11 @@ react-strap@^0.0.1:
   resolved "https://registry.yarnpkg.com/react-strap/-/react-strap-0.0.1.tgz#08f22c5e2a0ae7f475cd5814b89fc0c05a67215e"
   integrity sha1-CPIsXioK5/R1zVgUuJ/AwFpnIV4=
 
+react-table@^7.0.0-beta.22:
+  version "7.0.0-beta.22"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-beta.22.tgz#6e2f05539ce348c1c0c95959a8c15fbdc58d769c"
+  integrity sha512-GVd8uEnldOtnnkSO7sQEToSohOqmt5VwwFIYz/5AGBK2LnAaTP+yk1okvk/h2PX3JkNVd/GMa3sQfST+06Un0g==
+
 react-transition-group@^2.3.1:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
