@@ -2,7 +2,7 @@ import axios from 'axios'
 const INTEGER = "integer";
 const STRING = "string";
 
-export const getTables = async () => await axios.get('/schema')
+export const getTables = async () => await axios.get('https://englishql-backend.onrender.com/schema')
 
 export const tables = getTables();
 
