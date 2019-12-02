@@ -6,10 +6,6 @@ import {loadData} from '../data'
 
 class TableView extends Component {
 
-async componentDidMount () {
-  this.props.loadData('SELECT * FROM users')
-}
-
 
 
 createTable = () => {
