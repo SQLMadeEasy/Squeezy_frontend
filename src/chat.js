@@ -84,7 +84,8 @@ const initState = [
     // speaker: 'chatBot'
     text: "",
     choices: [],
-    speaker: "chatBot"
+    speaker: "chatBot",
+    placeholder: ''
   }
 ]
 
