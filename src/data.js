@@ -15,7 +15,7 @@ export const loadData = (query) => {
         console.log('query is ', query)
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:8080/schema/run_query',
+            url: '/schema/run_query',
             data: {query: query}
         });
         dispatch(loadDataAction(response.data))

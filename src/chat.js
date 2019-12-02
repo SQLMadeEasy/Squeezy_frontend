@@ -1,7 +1,6 @@
 import { ApiAiClient } from 'api-ai-javascript'
 import { createLogger } from 'redux-logger'
 import { PromptTree } from './questionTree'
-import axios from 'axios'
 
 
 const promptTree = new PromptTree()
