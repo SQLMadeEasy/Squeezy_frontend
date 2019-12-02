@@ -30,7 +30,7 @@ export class PromptTree {
 
     this.tablePrompt = {
       getPrompt: function () {
-        return "What data are you interested in?";
+        return "What data are you interested in? \n Please choose a table name";
       },
 
       getChoices: function () {
@@ -203,7 +203,7 @@ export class PromptTree {
         if (response.includes("include")) {
           promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
         } else {
-          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `= ${response}` };
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `='${response}'`};
         }
 
         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
@@ -230,14 +230,14 @@ export class PromptTree {
                 if (promptTree.constraintRanges[index].max) {
                   return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
                 } else {
-                  return `${col} > ${promptTree.constraintRanges[index].min}`;
+                  return `${col}>${promptTree.constraintRanges[index].min}`;
                 }
               } else {
-                return `${col} < ${promptTree.constraintRanges[index].max}`;
+                return `${col}<${promptTree.constraintRanges[index].max}`;
               }
               // return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
             } else {
-              return `${col} ${promptTree.constraintRanges[index].constraint} `;
+              return `${col}${promptTree.constraintRanges[index].constraint}`;
             }
           }).join(" AND ")};`
         }
