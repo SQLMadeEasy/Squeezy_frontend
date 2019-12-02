@@ -6,54 +6,34 @@ import {loadData} from '../data'
 
 class TableView extends Component {
 
-async componentDidMount () {
-  this.props.loadData('SELECT * FROM users')
+
+
+createTable = () => {
+  const { data } = this.props
+  let table = []
+
+  for (let i = 0; i < data.queryData.length; i++) {
+    var children = []
+    let curRow = data.queryData[i]
+
+    for (var key in curRow) {
+    children.push(<td>{curRow[key]}</td>)
+    }
+    table.push(<tr>{children}</tr>)
+  }
+  return table
 }
 
-  render() {
-    const { data } = this.props
-    console.log('DATA', data)
 
-      return (
-        <div>
-          {data.queryData.map((row) => {
-            return (
-              <Toast className="Table">
+
+  render() {
+    return (
+          <Toast className="Table">
                 <Table hover>
-                <thead>
-                  <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
+                {this.createTable()}
                </Table>
               </Toast> 
-            )
-          })}
-          }}                 
-          </div>
-          )
+      )
   } 
 }
 

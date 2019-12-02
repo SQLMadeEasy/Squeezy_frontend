@@ -39,7 +39,7 @@ export class PromptTree {
 
       respond: function (response) {
         if (isTable(response)) {
-          setNextPrompt(this, promptTree.columnPrompt);
+          setNextPrompt(this, promptTree.allOrSomePrompt)
           promptTree.table = response;
         } else {
           promptTree.runIsInvalidReponse(this, response);
@@ -51,29 +51,31 @@ export class PromptTree {
     this.curNode = this.tablePrompt;
 
 
-    this.columnPrompt = {
-      getPrompt() {
-        return `What about ${promptTree.table} are you interested in?`;
-      },
+    // this.columnPrompt = {
+    //   getPrompt() {
+    //     return `What about ${promptTree.table} are you interested in?`;
+    //   },
 
-      getChoices() {
-        return Object.keys(tables[promptTree.table]);
-      },
+    //   getChoices() {
+    //     return Object.keys(tables[promptTree.table]);
+    //   },
 
 
-      respond: function (response) {
-        if (isColumn(promptTree.table, response)) {
-          setNextPrompt(this, promptTree.allOrSomePrompt)
-          promptTree.column = response
-        } else {
-          promptTree.runIsInvalidReponse(this, response);
-        }
-      }
-    }
+    //   respond: function (response) {
+    //     if (isColumn(promptTree.table, response)) {
+    //       setNextPrompt(this, promptTree.allOrSomePrompt)
+    //       promptTree.column = response
+    //     } else {
+    //       promptTree.runIsInvalidReponse(this, response);
+    //     }
+    //   }
+    // }
 
     this.allOrSomePrompt = {
       getPrompt: function () {
+
         return `Do you want all the ${promptTree.table} or just some of the ${promptTree.table}?`;
+      
       },
 
       getChoices: function () {
@@ -220,9 +222,9 @@ export class PromptTree {
     this.resultPrompt = {
       getPrompt: function () {
         if (!promptTree.constraintColumns || !promptTree.constraintColumns.length) {
-          return `SELECT ${promptTree.column} FROM ${promptTree.table};`
+          return `SELECT * FROM ${promptTree.table};`
         } else {
-          return `SELECT ${promptTree.column} FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
+          return `SELECT * FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
               if (promptTree.constraintRanges[index].min) {
                 if (promptTree.constraintRanges[index].max) {

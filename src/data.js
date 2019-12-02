@@ -22,7 +22,7 @@ export const loadData = (query) => {
 }
 
 const initState = {
-    queryData: {}
+    queryData: []
 }
 
 const dataReducer = (state = initState, action) => {
