@@ -6,7 +6,7 @@ import data from './data'
 import persistState from 'redux-localstorage'
 
 const enhancer = compose(
-    persistState()
+    persistState('data')
 )
 
 
