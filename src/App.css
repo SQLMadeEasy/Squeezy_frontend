@@ -33,7 +33,6 @@ body {
 .speech-bubble-right {
     display:block;
     font-family: 'Playfair Display', serif !important;
-    border: .2em solid black;
     background: white;
     font-size: 1.2rem;
     line-height: 1.3;
