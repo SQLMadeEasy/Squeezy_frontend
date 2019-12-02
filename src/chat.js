@@ -14,6 +14,7 @@ const client = new ApiAiClient({ accessToken })
 const ON_MESSAGE = "ON_MESSAGE"
 
 const INITIAL_STATE = "INITIAL_STATE"
+const REHYDRATE = "REHYDRATE"
 
 
 //ACTION CREATOR
@@ -109,6 +110,13 @@ const messageReducer = (state = initState, action) => {
       return [action.payload]
     case ON_MESSAGE:
       return [...state, action.payload]
+    case REHYDRATE:
+      // retrive stored data for reducer callApi
+      const savedData = action.payload.callApi || initState;
+
+      return {
+        ...state, ...savedData
+      };
     default:
       console.log('default is hit')
       return state

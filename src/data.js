@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const LOAD_DATA = "LOAD_DATA"
+const REHYDRATE = "REHYDRATE"
 
 const loadDataAction = (data) => {
     return {
@@ -30,6 +31,13 @@ const dataReducer = (state = initState, action) => {
     switch (action.type) {
         case LOAD_DATA:
             return {...state, queryData: action.payload}
+        case REHYDRATE:
+            // retrive stored data for reducer callApi
+            const savedData = action.payload.callApi || initState;
+
+            return {
+                ...state, ...savedData
+            };
         default:
             return state
     }
