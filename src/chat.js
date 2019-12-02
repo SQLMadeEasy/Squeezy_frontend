@@ -29,13 +29,6 @@ export const sendMessage = (text, choices = [], speaker) => {
 }
 
 
-export const loadData = (query) => {
-  return dispatch => {
-    const response = axios.get('http://localhost:8080/schema/run_query', {query})
-    dispatch(loadData(response.data))
-  }
-}
-
 
 //GRABBING RESPONSE FROM TEXT REQUEST
 export const messageMiddleware = () => next => action => {
