@@ -26,6 +26,7 @@ class Home extends Component {
       userInput: ''
     }
     this.handleInputSubmit = this.handleInputSubmit.bind(this)
+    this.loadAndChangePage = this.loadAndChangePage.bind(this)
   }
 
   handleInputSubmit(e) {
@@ -41,7 +42,11 @@ class Home extends Component {
     const response = await getTables();
     
     this.props.setUpInitialState(response.data);
-    this.props.loadData('SELECT * FROM users')
+  }
+
+  loadAndChangePage(query) {
+    this.props.loadData(query)
+    this.props.history.push('/table')
   }
 
   render() {
@@ -71,7 +76,8 @@ class Home extends Component {
                       <div>
                         <Row key={idx}>
                           <div className='speech-bubble-text-body'>
-                            <p>{entry.text}</p>
+                            {entry.text.includes('SELECT') ? this.loadAndChangePage(entry.text) : <p>{entry.text}</p>}
+
                             {entry.choices.length > 0 ?
                               <ol>
                                 {entry.choices.map(choice => <li>{choice}</li>)}
