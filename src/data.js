@@ -19,13 +19,8 @@ export const loadData = (query, databaseName,
         console.log('query is ', query)
         const response = await axios({
             method: 'post',
-            url: 'https://englishql-backend.onrender.com/schema/run_query',
-            data: {query: query, 
-            databaseName,
-            databaseHostname,
-            databaseUser, 
-            databasePort,
-            databasePassword}
+            url: 'http://localhost:8080/schema/run_query',
+            data: {query: query}
         });
         dispatch(loadDataAction(response.data))
     }
