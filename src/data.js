@@ -10,13 +10,22 @@ const loadDataAction = (data) => {
     }
 }
 
-export const loadData = (query) => {
+export const loadData = (query, databaseName,
+    databaseHostname,
+    databaseUser,
+    databasePort,
+    databasePassword) => {
     return async dispatch => {
         console.log('query is ', query)
         const response = await axios({
             method: 'post',
             url: 'https://englishql-backend.onrender.com/schema/run_query',
-            data: {query: query}
+            data: {query: query, 
+            databaseName,
+            databaseHostname,
+            databaseUser, 
+            databasePort,
+            databasePassword}
         });
         dispatch(loadDataAction(response.data))
     }

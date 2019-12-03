@@ -54,7 +54,13 @@ class Chat extends Component {
   }
 
   loadAndChangePage(query) {
-    this.props.loadData(query)
+    const {databaseName, databaseHostname, databasePassword, databaseUser, databasePort} = this.props.credentials 
+    this.props.loadData(query, 
+      databaseName,
+      databaseHostname,
+      databaseUser,
+      databasePort,
+      databasePassword)
     this.props.history.push('/table')
   }
 

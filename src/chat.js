@@ -95,6 +95,7 @@ const initState = [
 export const setUpInitialState = (tables) => {
   console.log("we ran")
   promptTree.setupTables(tables)
+  console.log(promptTree)
   return {
     type: INITIAL_STATE,
     payload: {

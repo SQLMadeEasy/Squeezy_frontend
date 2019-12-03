@@ -27,6 +27,24 @@ export class PromptTree {
 
     this.table = null;
     this.column = null;
+    this.userName = null;
+    this.welcomePrompt = {
+      getPrompt: function () {
+        return "Hi, I'm squeezy. Some people call me easy squeeze, but I refuse to ever speak to them again. What's your name?";
+      },
+
+      getChoices: function () {
+        return []
+      },
+
+      respond: function (response) {
+          setNextPrompt(this, promptTree.tablePrompt)
+          promptTree.userName = response;
+      },
+    }
+
+    this.startNode = this.welcomePrompt;
+    this.curNode = this.welcomePrompt;
 
     this.tablePrompt = {
       getPrompt: function () {
@@ -47,8 +65,7 @@ export class PromptTree {
       },
     }
 
-    this.startNode = this.tablePrompt;
-    this.curNode = this.tablePrompt;
+   
 
 
     // this.columnPrompt = {

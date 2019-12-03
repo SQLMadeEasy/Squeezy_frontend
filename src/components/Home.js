@@ -23,7 +23,7 @@ const Home = (props) => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log(databaseUser)
-        saveCredentials({databaseUser, databaseName, databasePassword, databaseHostname, databasePort})
+        props.saveCredentials({databaseUser, databaseName, databasePassword, databaseHostname, databasePort})
     }
 
         return (
