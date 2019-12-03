@@ -27,6 +27,7 @@ class Chat extends Component {
     }
     this.handleInputSubmit = this.handleInputSubmit.bind(this)
     this.loadAndChangePage = this.loadAndChangePage.bind(this)
+
   }
 
   handleInputSubmit(e) {
@@ -38,10 +39,18 @@ class Chat extends Component {
     }
   }
 
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+ 
+
   async componentDidMount() {
     const response = await getTables();
-    
     this.props.setUpInitialState(response.data);
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
 
   loadAndChangePage(query) {
@@ -95,6 +104,9 @@ class Chat extends Component {
                 )
               }
               )}
+              <div style={{ float: "left", clear: "both" }}
+                ref={(el) => { this.messagesEnd = el; }}>
+              </div>
             </div>
           </FreeScrollBar>
         </div>
