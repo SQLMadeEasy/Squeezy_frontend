@@ -1,5 +1,5 @@
-import { Table, Toast } from 'reactstrap'
-import React, { Component } from 'react'
+import { Table, Toast, Input, Row, Label } from 'reactstrap'
+import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import {loadData} from '../data'
 import { 
@@ -22,20 +22,66 @@ import {
         columns,
         data,
       },
+      useFilters,
       useSortBy
     )
-  
-    // We don't want to render all 2000 rows for this example, so cap
-    // it at 20 for this use case
+
     const firstPageRows = rows.slice(0, 20)
+    // // We don't want to render all 2000 rows for this example, so cap
+    // // it at 20 for this use case
+
+    const initialState = {}
+    columns[0].columns.forEach(col => {
+      initialState[col.accessor] = true
+    })
+
+    console.log('INITIALSTATE', initialState)
+
+    const [displayedCol, setdisplayedCol] = useState(initialState)
+
   
-    return (
+  return (
       <>
-        <table {...getTableProps()}>
+        <Row>
+          <div className="checkboxes">
+          {columns[0].columns.map(col => {
+            console.log('COLUMNS',columns)
+          return (
+        <Label check>
+          <Input onChange={(evt) => {
+                    setdisplayedCol({...displayedCol, [col.accessor]: !displayedCol[col.accessor]}) 
+                    }} type="checkbox" />{col.accessor}
+        </Label>
+          )
+        })} 
+          </div>
+        
+        </Row>
+
+{/* 
+      <Row>
+        <div className="checkboxes">
+         {['three', 'two', 'one'].map(str => {
+          return (
+        <Label check>
+          <Input type="checkbox"/>{str}
+        </Label>
+          )
+        })}
+        </div>
+      </Row> */}
+  
+ 
+  
+      <table {...getTableProps()}> 
           <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
+                {headerGroup.headers.filter(column => {
+                  console.log('sdfnsdf', column.Header)
+                  console.log('STATE', displayedCol)
+                  return displayedCol[column.Header]
+                }).map(column => (
                   // Add the sorting props to control sorting. For this example
                   // we can add them into the header props
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
@@ -69,6 +115,7 @@ import {
             )}
           </tbody>
         </table>
+        
         <br />
         <div>Showing the first 20 results of {rows.length} rows</div>
       </>
@@ -83,12 +130,12 @@ import {
 
   function createHeader () {
        const singleRow = props.data.queryData[0]
-       const columnObj = [{Header: 'User Information',columns: []}]
+       const columnObj = [{Header: 'Table Information',columns: []}]
 
        for (let col in singleRow) {
          const column = 
          {
-          Header: col.toUpperCase(),
+          Header: col,
           accessor: `${col}`
          }
          columnObj[0].columns.push(column)
@@ -101,18 +148,15 @@ import {
        createHeader,
        []
     )
-
-    console.log(createHeader())
   
   
     return (
-      <Table hover className="Table">
-        <TableLayout columns={columns} data={props.data.queryData} /> 
+      <Table hover>
+        <TableLayout className="Table" columns={columns} data={props.data.queryData} /> 
       </Table>   
+     
     )
   }
-
-
 
 
 const mapStateToProps = state => ({
