@@ -5,6 +5,7 @@ import Home from './components/Home'
 import Chat from './components/Chat'
 import TableView from './components/TableView'
 import Sidebar from './components/Sidebar'
+import Chart from './components/Charts'
 
 
 export default class App extends Component {
@@ -15,7 +16,7 @@ export default class App extends Component {
         <Router id='page-wrap'>
           <Route exact path="/" component={Home}></Route>
           <Route path="/chat" component={Chat}></Route>
-
+          <Route path='/chart' component={Chart}></Route>
           <Route path="/table" component={TableView}></Route>
         </Router>
       </Fragment>
