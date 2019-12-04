@@ -191,7 +191,22 @@ export class PromptTree {
         //   numbers[1] = response.split("-")[1];
         //   console.log(numbers)
         // } else {
-        
+
+        // }
+        let min = null;
+        if (response.length > 0) {
+          min = Number(response)
+        }
+
+        promptTree.constraintResponses[promptTree.constraintIndex] = { min: min, max: Infinity };
+        console.log("Current minmax: ", promptTree.constraintResponses[promptTree.constraintIndex])
+
+        setNextPrompt(this, promptTree.constrainByMaxInt)
+      }
+    }
+
+    
+
      this.constrainByMaxInt = {
       getPrompt: function () {
         return `What is the maximum value you want for ${promptTree.constraintColumns[promptTree.constraintIndex]}? (leave blank for no maximum)`;
