@@ -142,10 +142,59 @@ export class PromptTree {
       }
     }
 
+    
 
-    this.constrainByIntRange = {
+    this.constrainByMinInt = {
       getPrompt: function () {
-        return `What range do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
+        return `What is the minimum value you want for ${promptTree.constraintColumns[promptTree.constraintIndex]}? (leave blank for no minimum)`;
+      },
+
+      getChoices: function () {
+        return [];
+      },
+
+      respond(response) {
+        // reponse = reponse.split(" ").join(",");
+        // const numbers = [""];
+        // let numberIndex = 0;
+        // let lastWasANumber = false;
+        // for (let i = 0; i < reponse.length; i++) {
+        //   if (i === 0) {
+        //     if (!isNaN(reponse[0])) {
+        //       numbers[0] += reponse[0];
+        //       lastWasANumber = true;
+        //     }
+        //   } else {
+        //     if (!isNaN(reponse[i])) {
+        //       if (lastWasANumber) {
+        //         numbers[numberIndex] += reponse[i];
+        //       } else {
+        //         numbers[numberIndex] += reponse[i];
+        //         lastWasANumber = true;
+        //       }
+        //     } else {
+        //       if (lastWasANumber) {
+        //         numberIndex++;
+        //         numbers[numberIndex] = "";
+        //       }
+        //       lastWasANumber = false;
+        //     }
+        //   }
+        // }
+
+        // for (let i = 0; i < numbers.length; i++) {
+        //   numbers[i] = Number(numbers[i]);
+        // }                "20 - 40"
+        // let numbers;
+        // if (response[0] === "-") {
+        //   numbers = []
+        //   numbers[1] = response.split("-")[1];
+        //   console.log(numbers)
+        // } else {
+        
+     this.constrainByMaxInt = {
+      getPrompt: function () {
+        return `What is the maximum value you want for ${promptTree.constraintColumns[promptTree.constraintIndex]}? (leave blank for no maximum)`;
       },
 
       getChoices: function () {
@@ -192,15 +241,18 @@ export class PromptTree {
         // } else {
 
         // }
-        let numbers = response.split("-");
+        let max = null;
+        if (response.length > 0) {
+          max = Number(response)
+        }
 
-        promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
-        console.log({ min: numbers[0], max: numbers[1] })
+        promptTree.constraintResponses[promptTree.constraintIndex] = { ...promptTree.constraintResponses[promptTree.constraintIndex], max };
+        console.log("Current minmax: ", promptTree.constraintResponses[promptTree.constraintIndex])
 
         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
           promptTree.constraintIndex++;
           if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
-            setNextPrompt(this, promptTree.constrainByIntRange);
+            setNextPrompt(this, promptTree.constrainByMinInt);
           } else {
             setNextPrompt(this, promptTree.constrainByStrRange);
           }
@@ -209,6 +261,75 @@ export class PromptTree {
         }
       }
     }
+
+
+
+//     this.constrainByIntRange = {
+//       getPrompt: function () {
+//         return `What range do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
+//       },
+
+//       getChoices: function () {
+//         return [];
+//       },
+
+//       respond(response) {
+//         // reponse = reponse.split(" ").join(",");
+//         // const numbers = [""];
+//         // let numberIndex = 0;
+//         // let lastWasANumber = false;
+//         // for (let i = 0; i < reponse.length; i++) {
+//         //   if (i === 0) {
+//         //     if (!isNaN(reponse[0])) {
+//         //       numbers[0] += reponse[0];
+//         //       lastWasANumber = true;
+//         //     }
+//         //   } else {
+//         //     if (!isNaN(reponse[i])) {
+//         //       if (lastWasANumber) {
+//         //         numbers[numberIndex] += reponse[i];
+//         //       } else {
+//         //         numbers[numberIndex] += reponse[i];
+//         //         lastWasANumber = true;
+//         //       }
+//         //     } else {
+//         //       if (lastWasANumber) {
+//         //         numberIndex++;
+//         //         numbers[numberIndex] = "";
+//         //       }
+//         //       lastWasANumber = false;
+//         //     }
+//         //   }
+//         // }
+
+//         // for (let i = 0; i < numbers.length; i++) {
+//         //   numbers[i] = Number(numbers[i]);
+//         // }                "20 - 40"
+//         // let numbers;
+//         // if (response[0] === "-") {
+//         //   numbers = []
+//         //   numbers[1] = response.split("-")[1];
+//         //   console.log(numbers)
+//         // } else {
+
+//         // }
+//         let numbers = response.split("-");
+
+//         promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
+//         console.log({ min: numbers[0], max: numbers[1] })
+
+//         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
+//           promptTree.constraintIndex++;
+//           if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
+//             setNextPrompt(this, promptTree.constrainByIntRange);
+//           } else {
+//             setNextPrompt(this, promptTree.constrainByStrRange);
+//           }
+//         } else {
+//           setNextPrompt(this, promptTree.resultPrompt);
+//         }
+//       }
+//     }
 
     this.constrainByStrRange = {
       getPrompt: function () {
