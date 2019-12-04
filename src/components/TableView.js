@@ -40,10 +40,9 @@ import {
 
     const [displayedCol, setdisplayedCol] = useState(initialState)
 
-  if (data.length === 0) {
+  if (data.length  === 0) {
     return null
   }
-  
   return (
       <>
         <Row>
@@ -148,6 +147,9 @@ import {
        []
     )
   
+    if (props.data.queryData.length === 0) {
+      return null
+    }
   
     return (
       <Table className="Table" hover>

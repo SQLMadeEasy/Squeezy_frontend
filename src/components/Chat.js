@@ -23,7 +23,7 @@ class Chat extends Component {
   constructor() {
     super()
     this.state = {
-      userInput: ''
+      userInput: '',
     }
     this.handleInputSubmit = this.handleInputSubmit.bind(this)
     this.loadAndChangePage = this.loadAndChangePage.bind(this)
@@ -47,10 +47,13 @@ class Chat extends Component {
   async componentDidMount() {
     const response = await getTables();
     this.props.setUpInitialState(response.data);
+    
   }
 
   componentDidUpdate() {
-    this.scrollToBottom();
+    if (this.props.feed.length > 1) {
+      this.scrollToBottom();
+    }
   }
 
   loadAndChangePage(query) {
