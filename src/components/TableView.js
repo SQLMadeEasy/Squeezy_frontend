@@ -1,5 +1,6 @@
-import { Table, Toast, Input, Row, Label } from 'reactstrap'
+import { Table, Toast, Input, Row, Label, Button } from 'reactstrap'
 import React, { Component, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {loadData} from '../data'
 import { 
@@ -36,8 +37,6 @@ import {
       initialState[col.accessor] = true
     })
 
-    console.log('INITIALSTATE', initialState)
-
     const [displayedCol, setdisplayedCol] = useState(initialState)
 
   if (data.length === 0) {
@@ -58,8 +57,7 @@ import {
         </Label>
           )
         })} 
-          </div>
-        
+          </div> 
         </Row>
 
 {/* 
@@ -119,7 +117,15 @@ import {
         </table>
         
         <br />
-        <div>Showing the first 20 results of {rows.length} rows</div>
+        <div className="bold">Click on a Checkbox to Filter or Click a Column to Sort</div>
+        <div className="bold">Showing the first 20 results of {rows.length} rows</div>
+        <Link to="/">
+          <Button className="bold"> Connect to New Database </Button>
+        </Link>
+        <Link to="/chat">
+          <Button className="bold"> Back to Chat </Button>
+        </Link>
+        
       </>
     )
   }
@@ -153,8 +159,8 @@ import {
   
   
     return (
-      <Table hover>
-        <TableLayout className="Table" columns={columns} data={props.data.queryData} /> 
+      <Table className="Table" hover>
+        <TableLayout columns={columns} data={props.data.queryData} /> 
       </Table>   
      
     )

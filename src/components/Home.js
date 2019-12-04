@@ -31,7 +31,7 @@ const Home = (props) => {
                 <div className='app-welcome-content'>
                     <h1 className='app-header'>Welcome to Squeezy</h1>
                     <h3 className='app-subheader'>SQL Made Easy</h3>
-                    <Button onClick = {toggle}>Connect Your Database</Button>
+                    <Button className="connect-button" onClick = {toggle}>Connect Your Database</Button>
                     <Modal isOpen={modal} toggle={toggle} className='connect-db-modal'>
                         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
                         <ModalBody>
