@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
 
+
 .checkboxes {
   display: flex;
-  align-items: space-around;
+  align-items: flex-start;
   justify-content: space-around;
   background-color: white;
   min-height: 2em;
-  max-width: 100vw;
   min-width: 100vw;
 }
 
@@ -16,7 +16,7 @@ input {
 }
 
 body {
-    color:black
+    color:black,
 }
 
 .home-body {
@@ -33,10 +33,16 @@ body {
 
 .app-header {
   margin: 0 auto;
+  font-size: 4em;
 }
 
 .app-subheader {
   margin: 0 auto;
+  font-size: 2.2em;
+}
+
+.connect-button {
+  margin-top: 1em;
 }
 
 .chat-header {
@@ -125,8 +131,13 @@ body {
 
 
 table {
-    max-width: 100vw !important;
-    margin-top: 20px;
+
+    padding: 3em;
+}
+
+.Table {    
+  max-width: 100vw !important;
+  margin-top: 6em;
 }
 
 
@@ -135,6 +146,11 @@ table {
 }
 
 
+.bold {
+  font-weight: bold;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
 
 
 /* Individual item */
