@@ -38,8 +38,8 @@ export class PromptTree {
       },
 
       respond: function (response) {
-          setNextPrompt(this, promptTree.tablePrompt)
-          promptTree.userName = response;
+        setNextPrompt(this, promptTree.tablePrompt)
+        promptTree.userName = response;
       },
     }
 
@@ -52,7 +52,9 @@ export class PromptTree {
       },
 
       getChoices: function () {
-        return Object.keys(tables);
+        // this.choices = Object.keys(tables);
+        // return this.columns;
+        return setAndGetChoices(this, Object.keys(tables))
       },
 
       respond: function (response) {
@@ -65,7 +67,7 @@ export class PromptTree {
       },
     }
 
-   
+
 
 
     // this.columnPrompt = {
@@ -92,11 +94,12 @@ export class PromptTree {
       getPrompt: function () {
 
         return `Do you want all the ${promptTree.table} or just some of the ${promptTree.table}?`;
-      
+
       },
 
       getChoices: function () {
-        return this.choices = ['all', 'some'];
+        // return this.choices = ['all', 'some'];
+        return setAndGetChoices(this, ['all', 'some']);
       },
 
       respond: function (response) {
@@ -123,20 +126,23 @@ export class PromptTree {
       },
 
       getChoices: function () {
-        return Object.keys(tables[promptTree.table]);
+        // return Object.keys(tables[promptTree.table]);
+        return setAndGetChoices(this, Object.keys(tables[promptTree.table]));
       },
 
       respond(response) {
         promptTree.constraintColumns = response.split(", ");
         promptTree.constraintIndex = 0;
-        promptTree.constraintResponses = [];
+        promptTree.constraintRanges = [];
         if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
-          setNextPrompt(this, promptTree.constrainByMinInt);
+          setNextPrompt(this, promptTree.constrainByIntRange);
         } else {
           setNextPrompt(this, promptTree.constrainByStrRange);
         }
       }
     }
+
+    
 
     this.constrainByMinInt = {
       getPrompt: function () {
@@ -201,7 +207,7 @@ export class PromptTree {
 
     
 
-    this.constrainByMaxInt = {
+     this.constrainByMaxInt = {
       getPrompt: function () {
         return `What is the maximum value you want for ${promptTree.constraintColumns[promptTree.constraintIndex]}? (leave blank for no maximum)`;
       },
@@ -273,72 +279,72 @@ export class PromptTree {
 
 
 
-    // this.constrainByIntRange = {
-    //   getPrompt: function () {
-    //     return `What range do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
-    //   },
+//     this.constrainByIntRange = {
+//       getPrompt: function () {
+//         return `What range do you wish to constrain ${promptTree.constraintColumns[promptTree.constraintIndex]} by?`;
+//       },
 
-    //   getChoices: function () {
-    //     return [];
-    //   },
+//       getChoices: function () {
+//         return [];
+//       },
 
-    //   respond(response) {
-    //     // reponse = reponse.split(" ").join(",");
-    //     // const numbers = [""];
-    //     // let numberIndex = 0;
-    //     // let lastWasANumber = false;
-    //     // for (let i = 0; i < reponse.length; i++) {
-    //     //   if (i === 0) {
-    //     //     if (!isNaN(reponse[0])) {
-    //     //       numbers[0] += reponse[0];
-    //     //       lastWasANumber = true;
-    //     //     }
-    //     //   } else {
-    //     //     if (!isNaN(reponse[i])) {
-    //     //       if (lastWasANumber) {
-    //     //         numbers[numberIndex] += reponse[i];
-    //     //       } else {
-    //     //         numbers[numberIndex] += reponse[i];
-    //     //         lastWasANumber = true;
-    //     //       }
-    //     //     } else {
-    //     //       if (lastWasANumber) {
-    //     //         numberIndex++;
-    //     //         numbers[numberIndex] = "";
-    //     //       }
-    //     //       lastWasANumber = false;
-    //     //     }
-    //     //   }
-    //     // }
+//       respond(response) {
+//         // reponse = reponse.split(" ").join(",");
+//         // const numbers = [""];
+//         // let numberIndex = 0;
+//         // let lastWasANumber = false;
+//         // for (let i = 0; i < reponse.length; i++) {
+//         //   if (i === 0) {
+//         //     if (!isNaN(reponse[0])) {
+//         //       numbers[0] += reponse[0];
+//         //       lastWasANumber = true;
+//         //     }
+//         //   } else {
+//         //     if (!isNaN(reponse[i])) {
+//         //       if (lastWasANumber) {
+//         //         numbers[numberIndex] += reponse[i];
+//         //       } else {
+//         //         numbers[numberIndex] += reponse[i];
+//         //         lastWasANumber = true;
+//         //       }
+//         //     } else {
+//         //       if (lastWasANumber) {
+//         //         numberIndex++;
+//         //         numbers[numberIndex] = "";
+//         //       }
+//         //       lastWasANumber = false;
+//         //     }
+//         //   }
+//         // }
 
-    //     // for (let i = 0; i < numbers.length; i++) {
-    //     //   numbers[i] = Number(numbers[i]);
-    //     // }                "20 - 40"
-    //     // let numbers;
-    //     // if (response[0] === "-") {
-    //     //   numbers = []
-    //     //   numbers[1] = response.split("-")[1];
-    //     //   console.log(numbers)
-    //     // } else {
+//         // for (let i = 0; i < numbers.length; i++) {
+//         //   numbers[i] = Number(numbers[i]);
+//         // }                "20 - 40"
+//         // let numbers;
+//         // if (response[0] === "-") {
+//         //   numbers = []
+//         //   numbers[1] = response.split("-")[1];
+//         //   console.log(numbers)
+//         // } else {
 
-    //     // }
-    //     let numbers = response.split("-");
+//         // }
+//         let numbers = response.split("-");
 
-    //     promptTree.constraintResponses[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
-    //     console.log({ min: numbers[0], max: numbers[1] })
+//         promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
+//         console.log({ min: numbers[0], max: numbers[1] })
 
-    //     if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
-    //       promptTree.constraintIndex++;
-    //       if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
-    //         setNextPrompt(this, promptTree.constrainByIntRange);
-    //       } else {
-    //         setNextPrompt(this, promptTree.constrainByStrRange);
-    //       }
-    //     } else {
-    //       setNextPrompt(this, promptTree.resultPrompt);
-    //     }
-    //   }
-    // }
+//         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
+//           promptTree.constraintIndex++;
+//           if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
+//             setNextPrompt(this, promptTree.constrainByIntRange);
+//           } else {
+//             setNextPrompt(this, promptTree.constrainByStrRange);
+//           }
+//         } else {
+//           setNextPrompt(this, promptTree.resultPrompt);
+//         }
+//       }
+//     }
 
     this.constrainByStrRange = {
       getPrompt: function () {
@@ -346,21 +352,23 @@ export class PromptTree {
       },
 
       getChoices: function () {
-        return [`${promptTree.constraintColumns[promptTree.constraintIndex]} should be TEXT`,
-        `${promptTree.constraintColumns[promptTree.constraintIndex]} should include TEXT`];
+        // return [`${promptTree.constraintColumns[promptTree.constraintIndex]} should be TEXT`,
+        // `${promptTree.constraintColumns[promptTree.constraintIndex]} should include TEXT`];
+        return setAndGetChoices(this, [`${promptTree.constraintColumns[promptTree.constraintIndex]} should be TEXT`,
+        `${promptTree.constraintColumns[promptTree.constraintIndex]} should include TEXT`]);
       },
 
       respond: function (response) {
         if (response.includes("include")) {
-          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `LIKE '%${response.slice(8)}%'` };
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
         } else {
-          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `='${response}'`};
+          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `='${response}'` };
         }
 
         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
           promptTree.constraintIndex++;
           if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
-            setNextPrompt(this, promptTree.constrainByMinRange);
+            setNextPrompt(this, promptTree.constrainByIntRange);
           } else {
             setNextPrompt(this, promptTree.constrainByStrRange);
           }
@@ -377,18 +385,18 @@ export class PromptTree {
         } else {
           return `SELECT * FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
-              if (promptTree.constraintResponses[index].min) {
-                if (promptTree.constraintResponses[index].max) {
-                  return `"${col}" BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
+              if (promptTree.constraintRanges[index].min) {
+                if (promptTree.constraintRanges[index].max) {
+                  return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
                 } else {
-                  return `"${col}">${promptTree.constraintResponses[index].min}`;
+                  return `${col}>${promptTree.constraintRanges[index].min}`;
                 }
               } else {
-                return `"${col}"<${promptTree.constraintResponses[index].max}`;
+                return `${col}<${promptTree.constraintRanges[index].max}`;
               }
-              // return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
+              // return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
             } else {
-              return `"${col}" ${promptTree.constraintResponses[index].constraint}`;
+              return `${col}${promptTree.constraintRanges[index].constraint}`;
             }
           }).join(" AND ")};`
         }
@@ -424,11 +432,37 @@ export class PromptTree {
       currentPrompt.nextPrompt = promptTree.invalidPrompt;
       promptTree.invalidPrompt.initialize(currentPrompt, invalidResponse)
     }
+
+    const keys = Object.keys(this);
+    for (let i = 0; i < keys.length; i++) {
+      if (this[keys[i]] && this[keys[i]].respond) {
+        let oldRespondFunction = this[keys[i]].respond;
+        this[keys[i]].respond = response => {
+          if (response === "start over") {
+            this.curNode = this.startNode;
+            this.constraintRanges = [];
+            this.constraintColumns = [];
+            return;
+          }
+          if (Number(response) && this[keys[i]].choices && this[keys[i]].choices.length) {
+            response = this[keys[i]].choices[Number(response) - 1];
+          }
+          oldRespondFunction = oldRespondFunction.bind(this[keys[i]])
+          oldRespondFunction(response);
+          // return oldRepondFunction.call(this[keys[i]], response);
+        }
+      }
+    }
   }
 
   setupTables(t) {
     tables = t;
   }
+}
+
+function setAndGetChoices(node, choices) {
+  node.choices = choices;
+  return node.choices;
 }
 
 
