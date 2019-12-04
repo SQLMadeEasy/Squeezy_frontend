@@ -135,7 +135,7 @@ export class PromptTree {
         promptTree.constraintIndex = 0;
         promptTree.constraintRanges = [];
         if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
-          setNextPrompt(this, promptTree.constrainByIntRange);
+          setNextPrompt(this, promptTree.constrainByMinInt);
         } else {
           setNextPrompt(this, promptTree.constrainByStrRange);
         }
