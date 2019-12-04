@@ -133,7 +133,7 @@ export class PromptTree {
       respond(response) {
         promptTree.constraintColumns = response.split(", ");
         promptTree.constraintIndex = 0;
-        promptTree.constraintRanges = [];
+        promptTree.constraintResponses = [];
         if (tables[promptTree.table][promptTree.constraintColumns[promptTree.constraintIndex]] === INTEGER) {
           setNextPrompt(this, promptTree.constrainByMinInt);
         } else {
@@ -330,7 +330,7 @@ export class PromptTree {
 //         // }
 //         let numbers = response.split("-");
 
-//         promptTree.constraintRanges[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
+//         promptTree.constraintResponses[promptTree.constraintIndex] = { min: numbers[0], max: numbers[1] };
 //         console.log({ min: numbers[0], max: numbers[1] })
 
 //         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
@@ -360,9 +360,9 @@ export class PromptTree {
 
       respond: function (response) {
         if (response.includes("include")) {
-          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
+          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
         } else {
-          promptTree.constraintRanges[promptTree.constraintIndex] = { constraint: `='${response}'` };
+          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `='${response}'` };
         }
 
         if (promptTree.constraintIndex < promptTree.constraintColumns.length - 1) {
@@ -385,18 +385,18 @@ export class PromptTree {
         } else {
           return `SELECT * FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
-              if (promptTree.constraintRanges[index].min) {
-                if (promptTree.constraintRanges[index].max) {
-                  return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
+              if (promptTree.constraintResponses[index].min) {
+                if (promptTree.constraintResponses[index].max) {
+                  return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
                 } else {
-                  return `${col}>${promptTree.constraintRanges[index].min}`;
+                  return `${col}>${promptTree.constraintResponses[index].min}`;
                 }
               } else {
-                return `${col}<${promptTree.constraintRanges[index].max}`;
+                return `${col}<${promptTree.constraintResponses[index].max}`;
               }
-              // return `${col} BETWEEN ${promptTree.constraintRanges[index].min} AND ${promptTree.constraintRanges[index].max} `;
+              // return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
             } else {
-              return `${col}${promptTree.constraintRanges[index].constraint}`;
+              return `${col}${promptTree.constraintResponses[index].constraint}`;
             }
           }).join(" AND ")};`
         }
@@ -440,7 +440,7 @@ export class PromptTree {
         this[keys[i]].respond = response => {
           if (response === "start over") {
             this.curNode = this.startNode;
-            this.constraintRanges = [];
+            this.constraintResponses = [];
             this.constraintColumns = [];
             return;
           }
