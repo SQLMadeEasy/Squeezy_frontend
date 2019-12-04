@@ -15,6 +15,7 @@ import {
       getTableProps,
       getTableBodyProps,
       headerGroups,
+      getHeaderGroupProps,
       rows,
       prepareRow,
     } = useTable(
@@ -81,8 +82,6 @@ import {
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.filter(column => {
-                  console.log('sdfnsdf', column.Header)
-                  console.log('STATE', displayedCol)
                   return displayedCol[column.Header]
                 }).map(column => (
                   // Add the sorting props to control sorting. For this example
@@ -93,8 +92,8 @@ import {
                     <span>
                       {column.isSorted
                         ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
+                          ? ' ⬇️'
+                          : ' ⬆️'
                         : ''}
                     </span>
                   </th>

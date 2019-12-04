@@ -61,9 +61,13 @@ body {
 }
 
 .main {
-    height: 50vh;
+    margin-top: 30px;
+    height: 60vh;
 }
 
+.FreeScrollbar {
+    height: 60vh
+}
 
 .speech-bubble-right {
     display:block;
@@ -79,6 +83,7 @@ body {
     font-family: 'Playfair Display', serif !important;
     border: .2em solid black;
     background: white;
+    margin: 0 auto !important;
 }
 
 
@@ -107,7 +112,12 @@ body {
 }
 
 
+.user-message-field-container {
+  margin-top: 20%;
+}
+
 .user-message-field {
+  margin-top: 100px;
   width: 500px;
   bottom:20px;
   margin: 0 auto;
