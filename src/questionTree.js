@@ -350,7 +350,7 @@ export class PromptTree {
 
       respond: function (response) {
         if (response.includes("include")) {
-          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `LIKE %${response.slice(8)}%` };
+          promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `LIKE '%${response.slice(8)}%'` };
         } else {
           promptTree.constraintResponses[promptTree.constraintIndex] = { constraint: `='${response}'`};
         }
@@ -377,16 +377,16 @@ export class PromptTree {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
               if (promptTree.constraintResponses[index].min) {
                 if (promptTree.constraintResponses[index].max) {
-                  return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
+                  return `"${col}" BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
                 } else {
-                  return `${col}>${promptTree.constraintResponses[index].min}`;
+                  return `"${col}">${promptTree.constraintResponses[index].min}`;
                 }
               } else {
-                return `${col}<${promptTree.constraintResponses[index].max}`;
+                return `"${col}"<${promptTree.constraintResponses[index].max}`;
               }
               // return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
             } else {
-              return `${col}${promptTree.constraintResponses[index].constraint}`;
+              return `"${col}" ${promptTree.constraintResponses[index].constraint}`;
             }
           }).join(" AND ")};`
         }
