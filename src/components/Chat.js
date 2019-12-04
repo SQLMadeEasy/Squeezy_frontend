@@ -24,7 +24,6 @@ class Chat extends Component {
     super()
     this.state = {
       userInput: '',
-      messageNum: 0,
     }
     this.handleInputSubmit = this.handleInputSubmit.bind(this)
     this.loadAndChangePage = this.loadAndChangePage.bind(this)
@@ -48,13 +47,11 @@ class Chat extends Component {
   async componentDidMount() {
     const response = await getTables();
     this.props.setUpInitialState(response.data);
-    this.setState((prevState, props) => ({
-      counter: prevState.messageNum + 1
-    })); 
+    
   }
 
   componentDidUpdate() {
-    if (this.state.messageNum > 0) {
+    if (this.props.feed.length > 1) {
       this.scrollToBottom();
     }
   }
