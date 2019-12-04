@@ -380,10 +380,11 @@ export class PromptTree {
 
     this.resultPrompt = {
       getPrompt: function () {
+        let blankCount = 0
         if (!promptTree.constraintColumns || !promptTree.constraintColumns.length) {
           return `SELECT * FROM ${promptTree.table};`
         } else {
-          return `SELECT * FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
+          let query = `SELECT * FROM ${promptTree.table} WHERE ${promptTree.constraintColumns.map((col, index) => {
             if (tables[promptTree.table][promptTree.constraintColumns[index]] === INTEGER) {
               if (promptTree.constraintResponses[index].min) {
                 if (promptTree.constraintResponses[index].max) {
@@ -391,14 +392,21 @@ export class PromptTree {
                 } else {
                   return `${col}>${promptTree.constraintResponses[index].min}`;
                 }
-              } else {
+              } else if (promptTree.constraintResponses[index].max) {
                 return `${col}<${promptTree.constraintResponses[index].max}`;
+              } else {
+                blankCount++
+                return ''
               }
               // return `${col} BETWEEN ${promptTree.constraintResponses[index].min} AND ${promptTree.constraintResponses[index].max} `;
             } else {
               return `${col}${promptTree.constraintResponses[index].constraint}`;
             }
-          }).join(" AND ")};`
+          }).filter(el => el).join(" AND ")};`
+          if (blankCount === promptTree.constraintResponses.length) {
+            query = query.replace(' WHERE ', '')
+          }
+          return query
         }
       },
 
