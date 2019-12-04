@@ -79,7 +79,7 @@ class Chat extends Component {
 
 
         <div>
-          <FreeScrollBar style={{ width: '100%', height: '310px' }}>
+          <FreeScrollBar className="FreeScrollbar" style={{ width: '100%', height: '310px' }}>
             <div className="main">
               {feed.map((entry, idx) => {
                 return (
