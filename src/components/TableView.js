@@ -81,7 +81,7 @@ import {
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.filter(column => {
-                  console.log('sdfnsdf', column.Header)
+                  console.log('COLUMN_HEADER', column.Header)
                   console.log('STATE', displayedCol)
                   return displayedCol[column.Header]
                 }).map(column => (
