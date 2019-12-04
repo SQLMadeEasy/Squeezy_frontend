@@ -15,7 +15,7 @@ export default class App extends Component {
       <Sidebar/>
         <Router id='page-wrap'>
           <Route exact path="/" component={Home}></Route>
-          <Route path="/chat" component={Chat}></Route>
+          <Route exact path="/chat" component={Chat}></Route>
           <Route path='/chart' component={Chart}></Route>
           <Route path="/table" component={TableView}></Route>
         </Router>
