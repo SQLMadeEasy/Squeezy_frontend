@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const LOAD_DATA = "LOAD_DATA"
+const LOAD_ALL_DATA = "LOAD_ALL_DATA"
 const REHYDRATE = "REHYDRATE"
 
 const loadDataAction = (data) => {
@@ -26,8 +27,25 @@ export const loadData = (query, databaseName,
     }
 }
 
+
+export const loadAllData = (tableName, databaseName,
+    databaseHostname,
+    databaseUser,
+    databasePort,
+    databasePassword) => {
+    return async dispatch => {
+        const response = await axios({
+            method: 'post',
+            url: 'http://localhost:8080/schema/run_query',
+            data: {query: `SELECT * FROM ${tableName}`}
+        });
+        dispatch(loadDataAction(response.data))
+    }
+}
+
 const initState = {
-    queryData: []
+    queryData: [],
+    allData: []
 }
 
 const dataReducer = (state = initState, action) => {

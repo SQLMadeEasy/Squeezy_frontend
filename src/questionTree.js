@@ -30,7 +30,7 @@ export class PromptTree {
     this.userName = null;
     this.welcomePrompt = {
       getPrompt: function () {
-        return "Hi, I'm squeezy. Some people call me easy squeeze, but I refuse to ever speak to them again. What's your name?";
+        return "Hi, I'm Squeezy. Some people call me easy Squeeze, but I refuse to ever speak to them again. What's your name?";
       },
 
       getChoices: function () {
