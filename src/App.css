@@ -10,6 +10,10 @@
   min-width: 100vw;
 }
 
+.FreeScrollbar {
+  height: 80vw;
+}
+
 input {
   min-height: 2em;
 
