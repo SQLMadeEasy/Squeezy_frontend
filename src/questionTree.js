@@ -199,6 +199,8 @@ export class PromptTree {
       }
     }
 
+    
+
     this.constrainByMaxInt = {
       getPrompt: function () {
         return `What is the maximum value you want for ${promptTree.constraintColumns[promptTree.constraintIndex]}? (leave blank for no maximum)`;
