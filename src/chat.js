@@ -3,7 +3,8 @@ import { createLogger } from 'redux-logger'
 import { PromptTree } from './questionTree'
 
 
-const promptTree = new PromptTree()
+export const promptTree = new PromptTree()
+
 
 const accessToken = '1113c174971d4174bf4ed8778835ba8b'
 const client = new ApiAiClient({ accessToken })

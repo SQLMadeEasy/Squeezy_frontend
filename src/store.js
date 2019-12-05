@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import chat, {messageMiddleware, logger} from './chat'
+import chat, {messageMiddleware, logger, promptTree} from './chat'
 import data from './data'
 import credentials from './credentials'
 import persistState from 'redux-localstorage'
@@ -22,6 +22,7 @@ const enhancers = composeWithDevTools(
 )
 
 const store = createStore(reducer, enhancers)
+promptTree.store = store
 
 export default store
 

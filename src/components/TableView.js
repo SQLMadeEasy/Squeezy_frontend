@@ -2,10 +2,9 @@ import { Table, Toast, Input, Row, Label, Button } from 'reactstrap'
 import React, { Component, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {loadData} from '../data'
+import {loadData, loadAllData} from '../data'
 import { 
   useTable,
-  useGroupBy,
   useFilters,
   useSortBy,
  } from "react-table";
@@ -109,13 +108,12 @@ import {
         <br />
         <div className="bold">Click on a Checkbox to Filter or Click a Column to Sort</div>
         <div className="bold">Showing the first 20 results of {rows.length} rows</div>
-        <Link to="/">
-          <Button className="bold"> Connect to New Database </Button>
-        </Link>
         <Link to="/chat">
-          <Button className="bold"> Back to Chat </Button>
+            <Button className="bold"> Back to Chat </Button>
+        </Link>  
+        <Link to="/chart">
+            <Button className="bold"> See Graph Data</Button>
         </Link>
-        
       </>
     )
   }
@@ -166,7 +164,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadData: (query) => dispatch(loadData(query))
+  loadData: (query) => dispatch(loadData(query)),
+  loadAllData: (table) => dispatch(loadAllData(table))
 })
 
 

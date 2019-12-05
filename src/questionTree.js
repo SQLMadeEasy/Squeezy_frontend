@@ -1,3 +1,4 @@
+import { loadAllData } from './data'
 
 const INTEGER = "integer";
 const STRING = "string";
@@ -30,7 +31,7 @@ export class PromptTree {
     this.userName = null;
     this.welcomePrompt = {
       getPrompt: function () {
-        return "Hi, I'm squeezy. Some people call me easy squeeze, but I refuse to ever speak to them again. What's your name?";
+        return "Hi, I'm Squeezy. Some people call me easy Squeeze, but I refuse to ever speak to them again. What's your name?";
       },
 
       getChoices: function () {
@@ -59,6 +60,8 @@ export class PromptTree {
 
       respond: function (response) {
         if (isTable(response)) {
+
+          promptTree.store.dispatch(loadAllData(response))
           setNextPrompt(this, promptTree.allOrSomePrompt)
           promptTree.table = response;
         } else {

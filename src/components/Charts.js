@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  PieChart, Pie, Cell,
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import {connect} from 'react-redux'
+import {loadAllData} from '../data'
+
 
 
 
@@ -27,17 +29,20 @@ class Chart extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/c9pL8k61/';
 
 
+
   render() {
 
   const data = [
-  { name: 'user1', value: this.props.data.queryData.length },
-  { name: 'other users', value: 3 },
+  { name: 'Queried Total Rows', value: +this.props.rowCount[0].count},
+  { name: 'Other Rows', value: +this.props.rowCount[0].count - this.props.data.queryData.length},
   ];
 
 
     return (
-      <PieChart className="PieChart" width={800} height={800}>
+      <PieChart className="PieChart" width={400} height={400}>
         <Pie
+          width={1000}
+          height={1000}
           data={data}
           cx={200}
           cy={200}
@@ -51,6 +56,7 @@ class Chart extends PureComponent {
             data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
           }
         </Pie>
+        <Legend/>
       </PieChart>
     );
   }
@@ -59,9 +65,16 @@ class Chart extends PureComponent {
 
 
 const mapStateToProps = state => ({
-  data: state.data
+  data: state.data,
+  rowCount: state.data.rowCount
+})
+
+
+const mapDispatchToProps = dispatch => ({
+  loadAllData: (table) => dispatch(loadAllData())
 })
 
 
 
-export default connect(mapStateToProps, null)(Chart)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart)
