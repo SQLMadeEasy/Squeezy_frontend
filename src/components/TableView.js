@@ -16,7 +16,6 @@ import {
       getTableProps,
       getTableBodyProps,
       headerGroups,
-      getHeaderGroupProps,
       rows,
       prepareRow,
     } = useTable(
@@ -29,12 +28,14 @@ import {
     )
 
     const firstPageRows = rows.slice(0, 20)
-    // // We don't want to render all 2000 rows for this example, so cap
-    // // it at 20 for this use case
+
 
     const initialState = {}
+    const columnNames = []
+
     columns[0].columns.forEach(col => {
       initialState[col.accessor] = true
+      columnNames.push(col.accessor)
     })
 
     const [displayedCol, setdisplayedCol] = useState(initialState)
@@ -47,7 +48,7 @@ import {
         <Row>
           <div className="checkboxes">
           {columns[0].columns.map(col => {
-            console.log('COLUMNS',columns)
+            console.log('COLUMNS',columns[0].columns)
           return (
         <Label check>
           <Input onChange={(evt) => {
@@ -58,21 +59,7 @@ import {
         })} 
           </div> 
         </Row>
-
-{/* 
-      <Row>
-        <div className="checkboxes">
-         {['three', 'two', 'one'].map(str => {
-          return (
-        <Label check>
-          <Input type="checkbox"/>{str}
-        </Label>
-          )
-        })}
-        </div>
-      </Row> */}
-  
- 
+   
   
       <table {...getTableProps()}> 
           <thead>
@@ -102,9 +89,13 @@ import {
             {firstPageRows.map(
               (row, i) => {
                 prepareRow(row);
+
+      
                 return (
                   <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => {
+                    {row.cells.filter((cell, idx) => {
+                      return displayedCol[columnNames[idx]]  
+                    }).map(cell => {
                       return (
                         <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                       )
