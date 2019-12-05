@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
 
-
+#root {
+  height: 100vh;
+}
 .checkboxes {
   display: flex;
   align-items: flex-start;
@@ -10,9 +12,6 @@
   min-width: 100vw;
 }
 
-.FreeScrollbar {
-  height: 80vw;
-}
 
 input {
   min-height: 2em;
@@ -53,6 +52,10 @@ body {
     text-align:center;
 }
 
+.chat-body {
+  height: 80vh;
+}
+
 /* .tagline {
     text-align:center;
 } */
@@ -70,14 +73,6 @@ body {
     margin-left: 40px;
 }
 
-.main {
-    margin-top: 30px;
-    height: 60vh;
-}
-
-.FreeScrollbar {
-    height: 60vh
-}
 
 .speech-bubble-right {
     display:block;
@@ -123,11 +118,9 @@ body {
 
 
 .user-message-field-container {
-  margin-top: 20%;
 }
 
 .user-message-field {
-  margin-top: 100px;
   width: 500px;
   bottom:20px;
   margin: 0 auto;
