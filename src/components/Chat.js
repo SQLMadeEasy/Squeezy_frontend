@@ -80,9 +80,8 @@ class Chat extends Component {
         </header>
 
 
-        <div>
+        <div className='chat-body'>
           <FreeScrollBar className="FreeScrollbar" style={{ width: '100%', height: '310px' }}>
-            <div className="main">
               {feed.map((entry, idx) => {
                 return (
                   <Toast className="speech-bubble-right">
@@ -114,7 +113,6 @@ class Chat extends Component {
               <div style={{ float: "left", clear: "both" }}
                 ref={(el) => { this.messagesEnd = el; }}>
               </div>
-            </div>
           </FreeScrollBar>
         </div>
         <InputGroup className = 'user-message-field-container'>
