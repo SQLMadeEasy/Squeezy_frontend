@@ -2,10 +2,9 @@ import { Table, Toast, Input, Row, Label, Button } from 'reactstrap'
 import React, { Component, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {loadData} from '../data'
+import {loadData, loadAllData} from '../data'
 import { 
   useTable,
-  useGroupBy,
   useFilters,
   useSortBy,
  } from "react-table";
@@ -114,8 +113,7 @@ import {
         </Link>
         <Link to="/chat">
           <Button className="bold"> Back to Chat </Button>
-        </Link>
-        
+        </Link>      
       </>
     )
   }
@@ -166,7 +164,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadData: (query) => dispatch(loadData(query))
+  loadData: (query) => dispatch(loadData(query)),
+  loadAllData: (table) => dispatch(loadAllData(table))
 })
 
 

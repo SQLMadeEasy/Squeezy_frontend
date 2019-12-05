@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { sendMessage, setUpInitialState } from '../chat'
-import { loadData } from '../data'
+import { loadData, loadAllData } from '../data'
 import FreeScrollBar from 'react-free-scrollbar'
 import '../App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,7 +14,6 @@ import {
 } from 'reactstrap'
 import Sidebar from './Sidebar'
 import { getTables } from "../dummydata";
-import TableView from './TableView'
 
 
 
@@ -95,7 +94,6 @@ class Chat extends Component {
                         <Row key={idx}>
                           <div className='speech-bubble-text-body'>
                             {entry.text.includes('SELECT') ? this.loadAndChangePage(entry.text) : <p>{entry.text}</p>}
-
                             {entry.choices.length > 0 ?
                               <ol>
                                 {entry.choices.map(choice => <li>{choice}</li>)}
@@ -133,7 +131,8 @@ class Chat extends Component {
 const mapDispatchToProps = dispatch => ({
   setUpInitialState: (tables) => dispatch(setUpInitialState(tables)),
   sendMessage: (text) => dispatch(sendMessage(text)),
-  loadData: (query) => dispatch(loadData(query))
+  loadData: (query) => dispatch(loadData(query)),
+  loadAllData: (table) => dispatch(loadData(table))
 })
 
 const mapStateToProps = state => ({

@@ -1,3 +1,4 @@
+import { loadAllData } from './data'
 
 const INTEGER = "integer";
 const STRING = "string";
@@ -57,6 +58,8 @@ export class PromptTree {
 
       respond: function (response) {
         if (isTable(response)) {
+
+          promptTree.store.dispatch(loadAllData(response))
           setNextPrompt(this, promptTree.allOrSomePrompt)
           promptTree.table = response;
         } else {
