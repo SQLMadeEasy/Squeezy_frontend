@@ -86,9 +86,9 @@ class Chat extends Component {
               {feed.map((entry, idx) => {
                 return (
                   <Toast className="speech-bubble-right">
-                    <ToastHeader>
-                <p><strong>{entry.speaker}</strong></p>
-                    </ToastHeader>
+                    {/* <ToastHeader>
+                      <p><strong>{entry.speaker}</strong></p>
+                    </ToastHeader> */}
                     <ToastBody>
                       <div>
                         <Row key={idx}>

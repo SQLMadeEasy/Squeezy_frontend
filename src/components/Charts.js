@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  PieChart, Pie, Cell,
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import {connect} from 'react-redux'
 import {loadAllData} from '../data'
+
 
 
 
@@ -32,8 +33,8 @@ class Chart extends PureComponent {
   render() {
 
   const data = [
-  { name: 'queried Results', value: +this.props.rowCount[0].count - this.props.data.queryData.length},
-  { name: 'Total Rows', value: +this.props.rowCount[0].count },
+  { name: 'Queried Total Rows', value: +this.props.rowCount[0].count},
+  { name: 'Other Rows', value: +this.props.rowCount[0].count - this.props.data.queryData.length},
   ];
 
 
@@ -55,6 +56,7 @@ class Chart extends PureComponent {
             data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
           }
         </Pie>
+        <Legend/>
       </PieChart>
     );
   }
