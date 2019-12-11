@@ -45,7 +45,7 @@ export const loadAllData = (tableName, databaseName,
     return async dispatch => {
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:8080/schema/run_query',
+            url: 'https://englishql-backend.onrender.com/schema/run_query',
             data: {query: `SELECT COUNT(*) FROM ${tableName}`}
         });
         dispatch(loadAllDataAction(response.data))
