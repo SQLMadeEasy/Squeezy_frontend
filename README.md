@@ -2,6 +2,11 @@
 
 Squeezy is a chatbot that lets you query your database in English. It's powered by React using [Create React App](https://github.com/facebook/create-react-app) and Express. 
 
+![squeezy_bot](https://user-images.githubusercontent.com/53973430/101378238-dd051800-3880-11eb-84fe-e3f9229de321.png)
+![squeezy_table](https://user-images.githubusercontent.com/53973430/101378254-e0000880-3880-11eb-96cb-fe93d9168428.png)
+![squeezy_graph](https://user-images.githubusercontent.com/53973430/101378257-e1c9cc00-3880-11eb-8dfb-64d4aa22e3f3.png)
+
+
 
 ### `yarn start`
 
